@@ -52,12 +52,12 @@ jobs:
         yarn
         yarn build
         gulp docs
-    - run: echo "" > dist/.nojekyll
+    - run: echo "" > docs/.nojekyll
       name: +.nojekyll
     - name: Init new repo in dist folder and commit generated files
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       run: |
-        cd dist
+        cd docs
         git init
         git remote add origin https://github.com/dimaslanjaka/proxies-grabber.git
         git add -A

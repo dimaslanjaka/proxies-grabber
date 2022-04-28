@@ -2,6 +2,8 @@ import gulp from 'gulp';
 import proxyGrabber from './src/core';
 import markdown from 'gulp-markdown';
 import rename from 'gulp-rename';
+import { join } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 
 const grabber = new proxyGrabber();
 gulp.task('method3', (done) => {
@@ -33,6 +35,8 @@ gulp.task('method1', (done) => {
 });
 
 gulp.task('docs', async () => {
+  const dest = join(__dirname, 'docs');
+  if (!existsSync(dest)) mkdirSync(dest);
   gulp
     .src('readme.md', { cwd: __dirname })
     .pipe(markdown())
@@ -46,5 +50,5 @@ gulp.task('docs', async () => {
         };
       }),
     )
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('docs'));
 });
