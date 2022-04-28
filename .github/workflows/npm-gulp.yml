@@ -44,7 +44,9 @@ jobs:
         path: |
           ./databases
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-
+    - name: Clone gh-pages
+      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
+      run: git clone --branch gh-pages --single-branch https://github.com/dimaslanjaka/proxies-grabber.git docs
     - name: Install Global Dependencies
       run: npm i -g npm gulp-cli typescript ts-node
     - name: Build
@@ -54,15 +56,9 @@ jobs:
         gulp docs
     - run: echo "" > docs/.nojekyll
       name: +.nojekyll
-    - name: Init new repo in dist folder and commit generated files
+    - name: Commit And Push gh-pages
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       run: |
-        cd docs
-        git init
-        git remote add origin https://github.com/dimaslanjaka/proxies-grabber.git
-        git branch -m gh-pages
         git add -A
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m 'deploy'
-        git push origin gh-pages
+        git commit -m "update"
+        git push
