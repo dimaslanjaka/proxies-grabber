@@ -5,7 +5,6 @@
   "[typescript]": {
     "editor.formatOnSave": false
   },
-  "typescript.suggestionActions.enabled": false,
   "javascript.suggestionActions.enabled": false,
   "files.exclude": {
     "**/.git": true,
