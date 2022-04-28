@@ -1,6 +1,6 @@
 const proxyGrabber = require('./dist');
 const dbProxy = require('./dist').db;
-const path = require('path');
+const path = require('upath');
 const gulp = require('gulp');
 const Promise = require('bluebird');
 

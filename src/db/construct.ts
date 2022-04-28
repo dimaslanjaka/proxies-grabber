@@ -1,4 +1,4 @@
-import path, { dirname } from 'path';
+import path, { dirname } from 'upath';
 import 'js-prototypes';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 

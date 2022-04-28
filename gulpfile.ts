@@ -1,9 +1,9 @@
 import gulp from 'gulp';
 import proxyGrabber from './src/core';
-import markdown from 'gulp-markdown';
-import rename from 'gulp-rename';
-import { join } from 'path';
+import { join } from 'upath';
 import { existsSync, mkdirSync } from 'fs';
+import dom from 'gulp-jsdom';
+import generateIndex from './src-docs';
 
 const grabber = new proxyGrabber();
 gulp.task('method3', (done) => {
@@ -37,19 +37,19 @@ gulp.task('method1', (done) => {
 gulp.task('docs', async () => {
   const dest = join(__dirname, 'docs');
   if (!existsSync(dest)) mkdirSync(dest);
+  await generateIndex();
+  // @todo [docs] transform readme.md to index.html
+  gulp.src('readme.md', { cwd: __dirname }).pipe(gulp.dest(dest));
+  // @todo [docs] modify external links
   gulp
-    .src('readme.md', { cwd: __dirname })
-    .pipe(markdown())
+    .src('**/*.html', { cwd: dest })
     .pipe(
-      rename(function (path) {
-        // Returns a completely new object, make sure you return all keys needed!
-        return {
-          dirname: path.dirname,
-          basename: 'index',
-          extname: '.html',
-        };
+      dom((document: Document) => {
+        Array.from(document.querySelectorAll('a')).forEach((el) => {
+          el.target = '_blank';
+          el.rel = 'nofollow noopener noreferer';
+        });
       }),
     )
     .pipe(gulp.dest(dest));
-  gulp.src('**/*.html', { cwd: dest });
 });

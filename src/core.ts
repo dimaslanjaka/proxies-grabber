@@ -4,7 +4,7 @@ import moment from 'moment';
 import sslProxiesOrg from './sslproxies';
 import Promise from 'bluebird';
 import proxyListOrg from './proxylist';
-import path from 'path';
+import path from 'upath';
 import curl from './curl';
 import 'js-prototypes';
 const db = new dbl(path.join(process.cwd(), 'databases/proxies'));

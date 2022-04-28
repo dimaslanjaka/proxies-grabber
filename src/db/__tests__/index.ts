@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'upath';
 import dbProxy from '..';
 const db = new dbProxy(path.join(__dirname, 'databases'));
 if (!db.exists('/test')) {
