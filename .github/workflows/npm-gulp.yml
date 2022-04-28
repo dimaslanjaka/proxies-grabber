@@ -54,14 +54,13 @@ jobs:
         gulp docs
     - run: echo "" > dist/.nojekyll
       name: +.nojekyll
-    - name: Deploy 🚀
-      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-      uses: JamesIves/github-pages-deploy-action@v4.3.3
-      with:
-        branch: gh-pages # The branch the action should deploy to.
-        folder: dist # The folder the action should deploy.
-        force: false # merge instead push --force, (keep old / non modified) files?
-        token: "${{ secrets.GITHUB_TOKEN }}"
-        git-config-name: dimaslanjaka
-        git-config-email: dimaslanjaka@gmail.com
-        repository-name: dimaslanjaka/proxies-grabber
+    - name: Init new repo in dist folder and commit generated files
+      run: |
+        cd dist
+        git init
+        git remote add origin https://github.com/dimaslanjaka/proxies-grabber.git
+        git add -A
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m 'deploy'
+        git push origin gh-pages
