@@ -65,6 +65,7 @@ jobs:
         git add -A
         git commit -m "update"
     - name: Force push to destination branch
+      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       uses: ad-m/github-push-action@v0.5.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
