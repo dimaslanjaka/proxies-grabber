@@ -29,6 +29,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
 
+    - name: Cache multiple paths
+      uses: actions/cache@v3
+      with:
+        path: |
+          ./databases
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
     - name: Build
       run: |
         yarn
