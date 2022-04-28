@@ -3,7 +3,7 @@ import htmlParser from 'node-html-parser';
 import { get as curlGET } from './curl';
 import { returnObj } from './spys';
 
-function sslProxiesOrg() {
+export default function sslProxiesOrg() {
   return Promise.resolve(curlGET('http://www.sslproxies.org')).then((res) => {
     const data = res.data;
     const regex = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}/gm;
@@ -55,4 +55,4 @@ function sslProxiesOrg() {
   });
 }
 
-export = sslProxiesOrg;
+//export = sslProxiesOrg;

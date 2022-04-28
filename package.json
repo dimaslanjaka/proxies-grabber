@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint '*/**/*.{js,ts,html}' --quiet --fix",
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc -p tsconfig.base.json",
     "clean": "rm -rf dist databases"
   },
   "keywords": [

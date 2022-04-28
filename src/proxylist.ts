@@ -4,7 +4,7 @@ import { get as curlGET } from './curl';
 import { returnObj } from './spys';
 
 //https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1-10
-function proxyListOrg() {
+export default function proxyListOrg() {
   return Promise.resolve(
     curlGET('https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1'),
   ).then((res) => {
@@ -57,4 +57,3 @@ function proxyListOrg() {
     return resultWrapper;
   });
 }
-export = proxyListOrg;

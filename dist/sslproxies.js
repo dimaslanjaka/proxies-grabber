@@ -1,9 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var bluebird_1 = __importDefault(require("bluebird"));
-var node_html_parser_1 = __importDefault(require("node-html-parser"));
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var bluebird_1 = tslib_1.__importDefault(require("bluebird"));
+var node_html_parser_1 = tslib_1.__importDefault(require("node-html-parser"));
 var curl_1 = require("./curl");
 function sslProxiesOrg() {
     return bluebird_1.default.resolve((0, curl_1.get)('http://www.sslproxies.org')).then(function (res) {
@@ -32,6 +31,7 @@ function sslProxiesOrg() {
                 var google = td[5];
                 var ssl = td[6];
                 if (proxy && /^\d/.test(proxy.rawText)) {
+                    //console.log(proxy.rawText, port.rawText, countryCode.rawText, anonymity.rawText, google.rawText, ssl.rawText);
                     buildObject.proxy = "".concat(proxy.rawText.trim(), ":").concat(port.rawText.trim());
                     buildObject.google = /^yes/.test(google.rawText.trim()) ? true : false;
                     buildObject.ssl = /^yes/.test(ssl.rawText.trim()) ? true : false;
@@ -54,4 +54,5 @@ function sslProxiesOrg() {
         return objectWrapper;
     });
 }
-module.exports = sslProxiesOrg;
+exports.default = sslProxiesOrg;
+//export = sslProxiesOrg;

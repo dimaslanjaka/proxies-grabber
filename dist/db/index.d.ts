@@ -1,2 +1,2 @@
 import DBConstructor from './construct';
-export = DBConstructor;
+export default DBConstructor;

@@ -2,7 +2,7 @@ import path, { dirname } from 'path';
 import 'js-prototypes';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 
-class DBConstructor {
+export default class DBConstructor {
   folder: string;
   debug = false;
   /**
@@ -181,5 +181,3 @@ function objectEquals(x, y) {
     })
   );
 }
-
-export = DBConstructor;

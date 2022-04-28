@@ -12,7 +12,7 @@ const db = new dbl(path.join(process.cwd(), 'databases/proxies'));
 /**
  * Proxy Grabber
  */
-class proxyGrabber {
+export default class proxyGrabber {
   /**
    * Time to live
    */
@@ -167,4 +167,4 @@ interface TestResult {
   code?: number;
 }
 
-export default proxyGrabber;
+exports = proxyGrabber;

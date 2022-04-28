@@ -1,10 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var bluebird_1 = __importDefault(require("bluebird"));
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var bluebird_1 = tslib_1.__importDefault(require("bluebird"));
 var jsdom_1 = require("jsdom");
 var curl_1 = require("./curl");
+//https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1-10
 function proxyListOrg() {
     return bluebird_1.default.resolve((0, curl_1.get)('https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1')).then(function (res) {
         var data = res.data;
@@ -55,4 +55,4 @@ function proxyListOrg() {
         return resultWrapper;
     });
 }
-module.exports = proxyListOrg;
+exports.default = proxyListOrg;
