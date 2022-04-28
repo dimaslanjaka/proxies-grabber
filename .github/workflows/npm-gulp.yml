@@ -44,9 +44,7 @@ jobs:
         path: |
           ./databases
         key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-    - name: Clone gh-pages
-      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-      run: git clone --branch gh-pages --single-branch https://github.com/dimaslanjaka/proxies-grabber.git docs
+
     - name: Install Global Dependencies
       run: npm i -g npm gulp-cli typescript ts-node
     - name: Build
@@ -56,19 +54,9 @@ jobs:
         gulp docs
     - run: echo "" > docs/.nojekyll
       name: +.nojekyll
-    - name: Commit And Push gh-pages
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-      run: |
-        cd docs
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git commit -m "update"
-    - name: Force push to destination branch
-      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-      uses: ad-m/github-push-action@v0.5.0
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
-        force: true
-        directory: ./docs
+        branch: gh-pages # The branch the action should deploy to.
+        folder: build # The folder the action should deploy.
