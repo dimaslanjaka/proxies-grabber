@@ -59,6 +59,7 @@ jobs:
     - name: Commit And Push gh-pages
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       run: |
+        cd docs
         git add -A
         git commit -m "update"
         git push
