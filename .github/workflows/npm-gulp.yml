@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        #repository: dimaslanjaka/proxies-grabber
+        repository: dimaslanjaka/proxies-grabber
         submodules: recursive
         token: "${{ secrets.GITHUB_TOKEN }}"
 
