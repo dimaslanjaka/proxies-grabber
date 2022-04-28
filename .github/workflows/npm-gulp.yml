@@ -33,8 +33,9 @@ jobs:
       run: |
         yarn
         gulp docs
-    - name: Deploy 🚀
-        if: ${{ matrix.os }} == 'ubuntu-latest' # && ${{ matrix.node-version }} == '16.x'
+    - if: matrix.os == 'ubuntu-latest'
+        name: Deploy 🚀
+        #if: ${{ matrix.os }} == 'ubuntu-latest' # && ${{ matrix.node-version }} == '16.x'
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages # The branch the action should deploy to.
