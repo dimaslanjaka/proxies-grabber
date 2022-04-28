@@ -17,4 +17,4 @@ grabber.get().then(function (proxies) {
 });
 ```
 
-[Read More on gulpfile.js](./gulpfile.js)
+Read More: [Gulp1](./gulpfile.normal.js) [Gulp2](./gulpfile.ts)
