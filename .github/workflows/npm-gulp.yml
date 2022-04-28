@@ -60,6 +60,7 @@ jobs:
         cd docs
         git init
         git remote add origin https://github.com/dimaslanjaka/proxies-grabber.git
+        git branch -m gh-pages
         git add -A
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"

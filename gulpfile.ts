@@ -50,5 +50,5 @@ gulp.task('docs', async () => {
         };
       }),
     )
-    .pipe(gulp.dest('docs'));
+    .pipe(gulp.dest(dest));
 });

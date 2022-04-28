@@ -2,3 +2,4 @@ databases
 node_modules
 *.old.*
 *.log
+docs
