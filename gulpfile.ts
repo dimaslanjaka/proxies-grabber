@@ -51,4 +51,5 @@ gulp.task('docs', async () => {
       }),
     )
     .pipe(gulp.dest(dest));
+  gulp.src('**/*.html', { cwd: dest });
 });
