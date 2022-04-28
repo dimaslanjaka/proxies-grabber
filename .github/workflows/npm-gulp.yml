@@ -55,6 +55,7 @@ jobs:
     - run: echo "" > dist/.nojekyll
       name: +.nojekyll
     - name: Init new repo in dist folder and commit generated files
+      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       run: |
         cd dist
         git init
