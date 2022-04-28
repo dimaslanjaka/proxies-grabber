@@ -30,13 +30,16 @@
     "axios": "^0.24.0",
     "bluebird": "^3.7.2",
     "js-prototypes": "git+https://github.com/dimaslanjaka/js-prototypes.git#master",
+    "jsdom": "^19.0.0",
     "moment": "^2.29.1",
-    "node-html-parser": "^5.1.0"
+    "node-html-parser": "^5.1.0",
+    "node-libcurl": "^2.3.4"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.9",
     "@tsconfig/node14": "^1.0.1",
     "@tsconfig/node16": "^1.0.2",
+    "@types/jsdom": "^16.2.14",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.3.0",

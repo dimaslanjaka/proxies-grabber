@@ -8,7 +8,10 @@
       "command": "gulp",
       "name": "Test",
       "request": "launch",
-      "type": "node-terminal"
+      "type": "node-terminal",
+      "env": {
+        "NODE_ENV": "development"
+      }
     },
     {
       "command": "gulp test",

@@ -26,6 +26,10 @@ class DBConstructor {
    * @param value
    */
   push(key: string, value: any) {
+    if (typeof value == 'undefined') {
+      console.log('value undefined');
+      return;
+    }
     let content: string;
     content = typeof value + ':' + Buffer.from(value.toString()).toString('base64');
     if (Array.isArray(value)) {

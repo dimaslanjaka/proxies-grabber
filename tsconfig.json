@@ -6,12 +6,11 @@
     "allowUnusedLabels": true,
     "outDir": "./dist",
     "target": "ES5",
-    //"declarationDir": "./dist/@types",
     "resolveJsonModule": true,
-    //"emitDeclarationOnly": true,
     "declaration": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
+    "removeComments": true,
     "checkJs": false,
     "skipLibCheck": true
   },
@@ -26,7 +25,7 @@
     "./dist/**/*"
   ],
   "include": [
-    "index.js",
+    "src/**/*",
     //"src/**/*",
     //"../../../hexo-seo/packages/js-prototypes/src/**/*"
   ]

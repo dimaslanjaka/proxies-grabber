@@ -1,8 +1,5 @@
 import 'js-prototypes';
+import Promise from 'bluebird';
 export { returnObj as returnObj, parser as parse } from './parser/spys.txt';
-/**
- * Grab Spys
- * @returns
- */
-declare function spys(): any;
+declare function spys(): Promise<import("./parser/spys.txt").returnObj[]>;
 export default spys;
