@@ -32,7 +32,9 @@ jobs:
     - name: Build
       run: |
         yarn
+        yarn build
         gulp docs
+
     - name: Deploy 🚀
       if: ${{ matrix.os }} == 'ubuntu-latest' && ${{ matrix.node-version }} == '16.x'
       uses: JamesIves/github-pages-deploy-action@v4.3.0
