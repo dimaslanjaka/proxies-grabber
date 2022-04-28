@@ -60,6 +60,8 @@ jobs:
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
       run: |
         cd docs
+        git config --local user.email "dimaslanjaka@gmail.com"
+        git config --local user.name "dimaslanjaka"
         git add -A
         git commit -m "update"
         git push
