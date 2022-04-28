@@ -64,4 +64,4 @@ jobs:
         git config --local user.name "dimaslanjaka"
         git add -A
         git commit -m "update"
-        git push
+        git push https://${{ secrets.GITHUB_TOKEN }}@github.com/dimaslanjaka/proxies-grabber.git
