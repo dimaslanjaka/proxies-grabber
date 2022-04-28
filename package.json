@@ -17,26 +17,26 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dimaslanjaka/dimaslanjaka.github.io.git",
-    "directory": "/packages/traffic-generator/packages/proxy-grabber"
+    "url": "https://github.com/dimaslanjaka/proxies-grabber.git"
   },
-  "homepage": "https://github.com/dimaslanjaka/dimaslanjaka.github.io/tree/compiler/packages/traffic-generator/packages/proxy-grabber",
+  "homepage": "https://www.webmanajemen.com/proxies-grabber",
   "author": {
     "email": "dimaslanjaka@gmail.com",
     "name": "Dimas Lanjaka",
-    "url": "https://github.com/dimaslanjaka"
+    "url": "https://www.webmanajemen.com"
   },
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
     "bluebird": "^3.7.2",
-    "js-prototypes": "github:dimaslanjaka/js-prototypes",
+    "js-prototypes": "git+https://github.com/dimaslanjaka/js-prototypes.git#master",
     "moment": "^2.29.1",
     "node-html-parser": "^5.1.0"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.9",
     "@tsconfig/node14": "^1.0.1",
+    "@tsconfig/node16": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.3.0",
