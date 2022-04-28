@@ -39,7 +39,7 @@ gulp.task('docs', async () => {
   if (!existsSync(dest)) mkdirSync(dest);
   await generateIndex();
   // @todo [docs] transform readme.md to index.html
-  gulp.src('readme.md', { cwd: __dirname }).pipe(gulp.dest(dest));
+  gulp.src(['readme.md', 'gulpfile*.{js,ts}'], { cwd: __dirname }).pipe(gulp.dest(dest));
   // @todo [docs] modify external links
   gulp
     .src('**/*.html', { cwd: dest })
