@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: dimaslanjaka/proxies-grabber
+        #repository: dimaslanjaka/proxies-grabber
         submodules: recursive
         token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -49,9 +49,9 @@ jobs:
       name: +.nojekyll
     - name: Deploy 🚀
       if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-      uses: JamesIves/github-pages-deploy-action@v4.3.0
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages # The branch the action should deploy to.
         folder: dist # The folder the action should deploy.
         force: false # merge instead push --force, (keep old / non modified) files?
-        token: "${{ secrets.TOKEN }}"
+        token: "${{ secrets.GITHUB_TOKEN }}"
