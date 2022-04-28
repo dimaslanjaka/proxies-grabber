@@ -28,9 +28,9 @@ jobs:
         token: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Setup GitHub
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
