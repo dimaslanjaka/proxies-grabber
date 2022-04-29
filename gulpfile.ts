@@ -34,6 +34,8 @@ gulp.task('method1', (done) => {
     .finally(done);
 });
 
+gulp.task('test', gulp.series('method1', 'method2', 'method3'));
+
 gulp.task('docs', async () => {
   const dest = join(__dirname, 'docs');
   if (!existsSync(dest)) mkdirSync(dest);
