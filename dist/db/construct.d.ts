@@ -26,7 +26,9 @@ export default class DBConstructor {
      * @param by
      * @returns
      */
-    edit<T, K extends T>(key: string, newValue: T, by?: K): boolean;
+    edit<T extends {
+        [key: string]: any;
+    }, K extends T>(key: string, newValue: T, by?: K): boolean;
     /**
      * get table database by key
      * @param key key table

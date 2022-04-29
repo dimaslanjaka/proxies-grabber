@@ -65,14 +65,22 @@ export default class proxyGrabber {
 
   /**
    * Get all grabbed proxies
+   * @param proxy filter only 1 proxy
    * @returns
    */
-  async get() {
+  async get(proxy?: string) {
     //return Object.assign(this.method1(), this.method2());
     const proxies = await this.method1();
     const proxies2 = await this.method2();
     const proxies3 = await this.method3();
-    return Object.assign(proxies, proxies2, proxies3);
+
+    const merge = Object.assign(proxies, proxies2, proxies3);
+    if (typeof proxy === 'string') {
+      const obj = merge.find((o) => o.proxy === proxy);
+      const objincludes = merge.find((o) => o.proxy.includes(proxy));
+      return [obj, objincludes];
+    }
+    return merge;
   }
 
   getDb() {
