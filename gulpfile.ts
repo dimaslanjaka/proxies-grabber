@@ -4,6 +4,7 @@ import { join } from 'upath';
 import { existsSync, mkdirSync } from 'fs';
 import dom from 'gulp-jsdom';
 import generateIndex from './src-docs';
+import Bluebird from 'bluebird';
 
 const grabber = new proxyGrabber();
 gulp.task('method3', (done) => {
@@ -34,7 +35,32 @@ gulp.task('method1', (done) => {
     .finally(done);
 });
 
-gulp.task('test', gulp.series('method1', 'method2', 'method3'));
+gulp.task('get', gulp.series('method1', 'method2', 'method3'));
+function testProxy(done: any) {
+  grabber.test(1).then((resx) => {
+    let xx = [];
+    resx.map((rx) => {
+      xx = xx.concat(rx);
+    });
+    console.log(xx);
+    done();
+  });
+}
+gulp.task('test', testProxy);
+gulp.task('check', (done) => {
+  Bluebird.all(grabber.get())
+    .map((r) => r.proxy)
+    .map((s) => {
+      return { proxy: s };
+    })
+    .then(grabber.testProxies)
+    .each(async (item) => {
+      console.log(item);
+    })
+    .finally(() => {
+      if (typeof done == 'function') done();
+    });
+});
 
 gulp.task('docs', async () => {
   const dest = join(__dirname, 'docs');

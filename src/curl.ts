@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import axios, { AxiosRequestConfig } from 'axios';
+import HttpsProxyAgent from 'https-proxy-agent';
 
 type ObjectAlias = object;
 type AxiosConfigShadow = AxiosRequestConfig &
@@ -12,7 +13,7 @@ const axiosDefault = (url: string): AxiosConfigShadow => {
   return {
     baseURL: url,
     maxRedirects: 5,
-    timeout: 1000 * 5, // Wait for 5 seconds
+    timeout: 60 * 1000,
     headers: {
       'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
@@ -21,19 +22,17 @@ const axiosDefault = (url: string): AxiosConfigShadow => {
   };
 };
 
-export function get(url: string, options?: AxiosConfigShadow) {
+export async function get(url: string, options?: AxiosConfigShadow) {
   const opt = ObjectReplaceFrom(axiosDefault(url), options);
   const instance = axios.create(opt);
 
-  return instance.get(url).then((res) => {
-    const statusCode = res.status;
-
-    if (statusCode == 301 || statusCode == 302) {
-      console.log(res.headers);
-      return null;
-    }
-    return res;
-  });
+  const res = await instance.get(url);
+  const statusCode = res.status;
+  if (statusCode == 301 || statusCode == 302) {
+    console.log(res.headers);
+    return null;
+  }
+  return res;
   /*.catch((reason: AxiosError) => {
       if (reason.response?.status === 400) {
         // Handle 400
@@ -46,15 +45,11 @@ export function get(url: string, options?: AxiosConfigShadow) {
 
 export function testProxy(proxy: string, target = 'http://google.com', options?: AxiosConfigShadow) {
   const def = {
-    /*USERAGENT:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
-    FOLLOWLOCATION: true,
-    REFERER: 'https://webmanajemen.com',
-    httpProxyTunnel: '1L',
-    PROXY: proxy,*/
+    proxy: false,
+    httpsAgent: HttpsProxyAgent('http://' + proxy.replace(/https?:\/\//, '')),
   };
 
-  return get(target, ObjectReplaceFrom(def, options));
+  return get(target, Object.assign(def, options));
 }
 
 /**

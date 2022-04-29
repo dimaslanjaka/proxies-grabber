@@ -17,6 +17,6 @@ grabber.get().then(function (proxies) {
 });
 ```
 
-Read More: [Gulp1](./gulpfile.normal.js) | [Gulp2](./gulpfile.ts)
+Read More: [Gulpfile](./gulpfile.ts)
 
 Github: https://github.com/dimaslanjaka/proxies-grabber
