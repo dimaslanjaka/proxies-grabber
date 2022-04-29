@@ -1,5 +1,4 @@
 import { curly } from 'node-libcurl';
-import 'js-prototypes';
 import Promise from 'bluebird';
 import { parser } from './parser/spys.txt';
 export { returnObj as returnObj, parser as parse } from './parser/spys.txt';

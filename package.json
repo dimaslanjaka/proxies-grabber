@@ -29,7 +29,6 @@
   "dependencies": {
     "axios": "^0.24.0",
     "bluebird": "^3.7.2",
-    "js-prototypes": "git+https://github.com/dimaslanjaka/js-prototypes.git#master",
     "jsdom": "^19.0.0",
     "moment": "^2.29.1",
     "node-html-parser": "^5.1.0",

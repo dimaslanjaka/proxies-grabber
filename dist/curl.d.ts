@@ -1,4 +1,3 @@
-import 'js-prototypes';
 import { AxiosRequestConfig } from 'axios';
 declare type ObjectAlias = object;
 declare type AxiosConfigShadow = AxiosRequestConfig & ObjectAlias & {

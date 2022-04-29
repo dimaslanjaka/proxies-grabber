@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import 'js-prototypes';
+
 import axios, { AxiosRequestConfig } from 'axios';
 
 type ObjectAlias = object;

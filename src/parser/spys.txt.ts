@@ -1,4 +1,3 @@
-import 'js-prototypes';
 export type returnObj = {
   /**
    * IP:PORT
@@ -45,9 +44,9 @@ export type returnObj = {
 function parse(data: string) {
   const result: returnObj[] = data
     .split('\n')
-    .trim()
+    .map((s) => (typeof s == 'string' ? s.trim() : s))
     .filter((str) => {
-      if (!str.match(/^\d/)) {
+      if (typeof str !== 'string' || !str.match(/^\d/)) {
         return false;
       }
       return true;

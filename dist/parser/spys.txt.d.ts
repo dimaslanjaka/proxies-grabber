@@ -1,4 +1,3 @@
-import 'js-prototypes';
 export declare type returnObj = {
     /**
      * IP:PORT

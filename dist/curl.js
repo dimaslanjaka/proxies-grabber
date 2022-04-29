@@ -1,9 +1,8 @@
 "use strict";
+/* eslint-disable @typescript-eslint/no-empty-function */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.testProxy = exports.get = void 0;
 var tslib_1 = require("tslib");
-/* eslint-disable @typescript-eslint/no-empty-function */
-require("js-prototypes");
 var axios_1 = tslib_1.__importDefault(require("axios"));
 var axiosDefault = function (url) {
     return {

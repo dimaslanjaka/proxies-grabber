@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.parse = void 0;
 var tslib_1 = require("tslib");
 var node_libcurl_1 = require("node-libcurl");
-require("js-prototypes");
 var bluebird_1 = tslib_1.__importDefault(require("bluebird"));
 var spys_txt_1 = require("./parser/spys.txt");
 var spys_txt_2 = require("./parser/spys.txt");

@@ -1,6 +1,6 @@
 import path, { dirname } from 'upath';
-import 'js-prototypes';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { isFloat, isInt } from '../utils/number';
 
 export default class DBConstructor {
   folder: string;

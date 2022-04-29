@@ -1,4 +1,3 @@
-import 'js-prototypes';
 export default class DBConstructor {
     folder: string;
     debug: boolean;

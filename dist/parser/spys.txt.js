@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parser = void 0;
-require("js-prototypes");
 /**
  * Parse data from spys
  * @param data
@@ -10,9 +9,9 @@ require("js-prototypes");
 function parse(data) {
     var result = data
         .split('\n')
-        .trim()
+        .map(function (s) { return (typeof s == 'string' ? s.trim() : s); })
         .filter(function (str) {
-        if (!str.match(/^\d/)) {
+        if (typeof str !== 'string' || !str.match(/^\d/)) {
             return false;
         }
         return true;

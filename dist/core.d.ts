@@ -1,6 +1,5 @@
 import { returnObj } from './spys';
 import Promise from 'bluebird';
-import 'js-prototypes';
 /**
  * Proxy Grabber
  */

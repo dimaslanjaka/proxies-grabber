@@ -6,7 +6,7 @@ import Promise from 'bluebird';
 import proxyListOrg from './proxylist';
 import path from 'upath';
 import curl from './curl';
-import 'js-prototypes';
+import { shuffle, uniqueArrayByObjectKey } from './utils/array';
 const db = new dbl(path.join(process.cwd(), 'databases/proxies'));
 
 /**
@@ -134,7 +134,7 @@ export default class proxyGrabber {
         }
 
         if (dbKey) {
-          proxies = proxies.uniqueObjectKey('proxy').shuffle();
+          proxies = shuffle(uniqueArrayByObjectKey(proxies, 'proxy'));
           if (limit > 0) proxies.length = limit;
           const test = testProxies(proxies, dbKey).map((tested) => {
             return tested.then((result) => {

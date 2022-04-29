@@ -1,4 +1,3 @@
-import 'js-prototypes';
 import Promise from 'bluebird';
 export { returnObj as returnObj, parser as parse } from './parser/spys.txt';
 /**

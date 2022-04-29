@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var path_1 = tslib_1.__importStar(require("path"));
-require("js-prototypes");
+var upath_1 = tslib_1.__importStar(require("upath"));
 var fs_1 = require("fs");
+var number_1 = require("../utils/number");
 var DBConstructor = /** @class */ (function () {
     /**
      * Database File Constructor
@@ -40,18 +40,18 @@ var DBConstructor = /** @class */ (function () {
             content = typeof value + ':' + Buffer.from(JSON.stringify(value)).toString('base64');
         }
         else if (typeof value == 'number') {
-            if (isInt(value)) {
+            if ((0, number_1.isInt)(value)) {
                 content = 'number:' + Buffer.from(value.toString()).toString('base64');
             }
-            else if (isFloat(value)) {
+            else if ((0, number_1.isFloat)(value)) {
                 content = 'float:' + Buffer.from(value.toString()).toString('base64');
             }
         }
         this.save(key, content);
     };
     DBConstructor.prototype.save = function (key, content) {
-        if (!(0, fs_1.existsSync)((0, path_1.dirname)(this.locationfile(key))))
-            (0, fs_1.mkdirSync)((0, path_1.dirname)(this.locationfile(key)), { recursive: true });
+        if (!(0, fs_1.existsSync)((0, upath_1.dirname)(this.locationfile(key))))
+            (0, fs_1.mkdirSync)((0, upath_1.dirname)(this.locationfile(key)), { recursive: true });
         (0, fs_1.writeFileSync)(this.locationfile(key), content);
     };
     /**
@@ -132,7 +132,7 @@ var DBConstructor = /** @class */ (function () {
         }
     };
     DBConstructor.prototype.locationfile = function (key) {
-        return path_1.default.join(this.folder, key);
+        return upath_1.default.join(this.folder, key);
     };
     return DBConstructor;
 }());

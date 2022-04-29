@@ -7,10 +7,10 @@ var moment_1 = tslib_1.__importDefault(require("moment"));
 var sslproxies_1 = tslib_1.__importDefault(require("./sslproxies"));
 var bluebird_1 = tslib_1.__importDefault(require("bluebird"));
 var proxylist_1 = tslib_1.__importDefault(require("./proxylist"));
-var path_1 = tslib_1.__importDefault(require("path"));
+var upath_1 = tslib_1.__importDefault(require("upath"));
 var curl_1 = tslib_1.__importDefault(require("./curl"));
-require("js-prototypes");
-var db = new db_1.default(path_1.default.join(process.cwd(), 'databases/proxies'));
+var array_1 = require("./utils/array");
+var db = new db_1.default(upath_1.default.join(process.cwd(), 'databases/proxies'));
 /**
  * Proxy Grabber
  */
@@ -131,7 +131,7 @@ var proxyGrabber = /** @class */ (function () {
                         break;
                 }
                 if (dbKey) {
-                    proxies = proxies.uniqueObjectKey('proxy').shuffle();
+                    proxies = (0, array_1.shuffle)((0, array_1.uniqueArrayByObjectKey)(proxies, 'proxy'));
                     if (limit > 0)
                         proxies.length = limit;
                     var test = testProxies(proxies, dbKey).map(function (tested) {
