@@ -57,7 +57,7 @@ export default class DBConstructor {
    * @param by
    * @returns
    */
-  edit<T, K extends T>(key: string, newValue: T, by?: K) {
+  edit<T extends { [key: string]: any }, K extends T>(key: string, newValue: T, by?: K) {
     if (typeof by == 'object') {
       const get = this.get(key);
       if (Array.isArray(get)) {

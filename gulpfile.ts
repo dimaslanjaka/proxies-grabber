@@ -37,16 +37,19 @@ gulp.task('method1', (done) => {
 
 gulp.task('get', gulp.series('method1', 'method2', 'method3'));
 function testProxy(done: any) {
-  grabber.test(1).then((resx) => {
+  grabber.test(5).then((resx) => {
     let xx = [];
     resx.map((rx) => {
       xx = xx.concat(rx);
     });
-    console.log(xx);
+    //console.log(xx);
     done();
   });
 }
 gulp.task('test', testProxy);
+gulp.task('testmethod1', () => {
+  return grabber.testMethod1(1);
+});
 gulp.task('check', (done) => {
   Bluebird.all(grabber.get())
     .map((r) => r.proxy)
