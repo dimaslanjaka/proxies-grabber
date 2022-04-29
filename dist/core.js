@@ -95,7 +95,7 @@ var proxyGrabber = /** @class */ (function () {
      */
     proxyGrabber.prototype.get = function (proxy) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var proxies, proxies2, proxies3, merge, obj, objincludes;
+            var proxies, proxies2, proxies3, merge, exactMatch, includeMatch, same;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.method1()];
@@ -109,9 +109,14 @@ var proxyGrabber = /** @class */ (function () {
                         proxies3 = _a.sent();
                         merge = Object.assign(proxies, proxies2, proxies3);
                         if (typeof proxy === 'string') {
-                            obj = merge.find(function (o) { return o.proxy === proxy; });
-                            objincludes = merge.find(function (o) { return o.proxy.includes(proxy); });
-                            return [2 /*return*/, [obj, objincludes]];
+                            exactMatch = merge.find(function (o) { return o.proxy === proxy; });
+                            includeMatch = merge.find(function (o) { return o.proxy.includes(proxy); });
+                            same = JSON.stringify(exactMatch) == JSON.stringify(includeMatch);
+                            // @todo return single object if exact and includes is same
+                            if (same)
+                                return [2 /*return*/, [exactMatch]];
+                            // @todo return two matches
+                            return [2 /*return*/, [exactMatch, includeMatch]];
                         }
                         return [2 /*return*/, merge];
                 }

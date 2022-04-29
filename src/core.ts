@@ -76,9 +76,13 @@ export default class proxyGrabber {
 
     const merge = Object.assign(proxies, proxies2, proxies3);
     if (typeof proxy === 'string') {
-      const obj = merge.find((o) => o.proxy === proxy);
-      const objincludes = merge.find((o) => o.proxy.includes(proxy));
-      return [obj, objincludes];
+      const exactMatch = merge.find((o) => o.proxy === proxy);
+      const includeMatch = merge.find((o) => o.proxy.includes(proxy));
+      const same = JSON.stringify(exactMatch) == JSON.stringify(includeMatch);
+      // @todo return single object if exact and includes is same
+      if (same) return [exactMatch];
+      // @todo return two matches
+      return [exactMatch, includeMatch];
     }
     return merge;
   }
