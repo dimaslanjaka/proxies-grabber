@@ -135,25 +135,25 @@ export default class proxyGrabber {
 
       // @todo anonymity test
       const proxyDetections = [
-        'HTTP-X-REAL-IP',
-        'HTTP-X-FORWARDED-FOR',
-        'HTTP-X-PROXY-ID',
-        'HTTP-VIA',
-        'HTTP-X-FORWARDED-FOR',
-        'HTTP-FORWARDED-FOR',
-        'HTTP-X-FORWARDED',
-        'HTTP-FORWARDED',
-        'HTTP-CLIENT-IP',
-        'HTTP-FORWARDED-FOR-IP',
-        'VIA',
-        'X-FORWARDED-FOR',
-        'FORWARDED-FOR',
-        'X-FORWARDED FORWARDED',
-        'CLIENT-IP',
-        'FORWARDED-FOR-IP',
-        'HTTP-PROXY-CONNECTION',
-        'HTTP-XROXY-CONNECTION',
-      ];
+    'X-REAL-IP',
+    'X-FORWARDED-FOR',
+    'X-PROXY-ID',
+    'VIA',
+    'X-FORWARDED-FOR',
+    'FORWARDED-FOR',
+    'X-FORWARDED',
+    'FORWARDED',
+    'CLIENT-IP',
+    'FORWARDED-FOR-IP',
+    'VIA',
+    'X-FORWARDED-FOR',
+    'FORWARDED-FOR',
+    'X-FORWARDED FORWARDED',
+    'CLIENT-IP',
+    'FORWARDED-FOR-IP',
+    'PROXY-CONNECTION',
+    'XROXY-CONNECTION'
+  ];
       // @todo transform all keys to be uppercased
       const headers: { [key: string]: string } = res.data.headers;
       Object.keys(headers).map((key) => {
