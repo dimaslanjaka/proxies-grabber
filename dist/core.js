@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.proxyGrabber = void 0;
 var tslib_1 = require("tslib");
 var db_1 = tslib_1.__importDefault(require("./db"));
 var spys_1 = tslib_1.__importDefault(require("./spys"));
@@ -184,7 +185,7 @@ var proxyGrabber = /** @class */ (function () {
     };
     proxyGrabber.prototype.testSingleProxy = function (obj) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var result, res, proxyDetections, headers_1, isleaked, splitProxy, ip, port, e_1;
+            var result, res, proxyDetections, headers_1, isleaked, splitProxy, ip, e_1;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -203,24 +204,81 @@ var proxyGrabber = /** @class */ (function () {
                         result.error = res.status != 200 && res.headers[1]['content-type'] != 'application/json';
                         result.proxy = obj;
                         proxyDetections = [
-                            'HTTP-X-REAL-IP',
-                            'HTTP-X-FORWARDED-FOR',
-                            'HTTP-X-PROXY-ID',
-                            'HTTP-VIA',
-                            'HTTP-X-FORWARDED-FOR',
-                            'HTTP-FORWARDED-FOR',
-                            'HTTP-X-FORWARDED',
-                            'HTTP-FORWARDED',
-                            'HTTP-CLIENT-IP',
-                            'HTTP-FORWARDED-FOR-IP',
+                            'ACCPROXYWS',
+                            'CDN-SRC-IP',
+                            'CLIENT-IP',
+                            'CLIENT_IP',
+                            'CUDA_CLIIP',
+                            'FORWARDED',
+                            'FORWARDED-FOR',
+                            'REMOTE-HOST',
+                            'X-CLIENT-IP',
+                            'X-COMING-FROM',
+                            'X-FORWARDED',
+                            'X-FORWARDED-FOR',
+                            'X-FORWARDED-FOR-IP',
+                            'X-FORWARDED-HOST',
+                            'X-FORWARDED-SERVER',
+                            'X-HOST',
+                            'X-NETWORK-INFO',
+                            'X-NOKIA-REMOTESOCKET',
+                            'X-PROXYUSER-IP',
+                            'X-QIHOO-IP',
+                            'X-REAL-IP',
+                            'XCNOOL_FORWARDED_FOR',
+                            'XCNOOL_REMOTE_ADDR',
+                            'MT-PROXY-ID',
+                            'PROXY-AGENT',
+                            'PROXY-CONNECTION',
+                            'SURROGATE-CAPABILITY',
+                            'VIA',
+                            'X-ACCEPT-ENCODING',
+                            'X-ARR-LOG-ID',
+                            'X-AUTHENTICATED-USER',
+                            'X-BLUECOAT-VIA',
+                            'X-CACHE',
+                            'X-CID-HASH',
+                            'X-CONTENT-OPT',
+                            'X-D-FORWARDER',
+                            'X-FIKKER',
+                            'X-FORWARDED-PORT',
+                            'X-FORWARDED-PROTO',
+                            'X-IMFORWARDS',
+                            'X-LOOP-CONTROL',
+                            'X-MATO-PARAM',
+                            'X-NAI-ID',
+                            'X-NOKIA-GATEWAY-ID',
+                            'X-NOKIA-LOCALSOCKET',
+                            'X-ORIGINAL-URL',
+                            'X-PROXY-ID',
+                            'X-ROAMING',
+                            'X-TEAMSITE-PREREMAP',
+                            'X-TINYPROXY',
+                            'X-TURBOPAGE',
+                            'X-VARNISH',
+                            'X-VIA',
+                            'X-WAP-PROFILE',
+                            'X-WRPROXY-ID',
+                            'X-XFF-0',
+                            'XROXY-CONNECTION',
+                            'X-REAL-IP',
+                            'X-FORWARDED-FOR',
+                            'X-PROXY-ID',
+                            'VIA',
+                            'X-FORWARDED-FOR',
+                            'FORWARDED-FOR',
+                            'X-FORWARDED',
+                            'FORWARDED',
+                            'CLIENT-IP',
+                            'FORWARDED-FOR-IP',
                             'VIA',
                             'X-FORWARDED-FOR',
                             'FORWARDED-FOR',
                             'X-FORWARDED FORWARDED',
                             'CLIENT-IP',
                             'FORWARDED-FOR-IP',
-                            'HTTP-PROXY-CONNECTION',
-                            'HTTP-XROXY-CONNECTION',
+                            'PROXY-CONNECTION',
+                            'XROXY-CONNECTION',
                         ];
                         headers_1 = res.data.headers;
                         Object.keys(headers_1).map(function (key) {
@@ -230,7 +288,7 @@ var proxyGrabber = /** @class */ (function () {
                         isleaked = proxyDetections.some(function (h) { return typeof headers_1[h] !== 'undefined'; });
                         splitProxy = obj.proxy.split(':').map(function (s) { return s.trim(); });
                         ip = splitProxy[0];
-                        port = splitProxy[1];
+                        //const port = splitProxy[1];
                         //console.log({ proxy: ip, origin: res.data.origin });
                         if (res.data.origin != ip) {
                             result.anonymity = 'T';
@@ -322,5 +380,6 @@ var proxyGrabber = /** @class */ (function () {
     };
     return proxyGrabber;
 }());
+exports.proxyGrabber = proxyGrabber;
 exports.default = proxyGrabber;
 exports = proxyGrabber;

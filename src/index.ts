@@ -5,4 +5,4 @@ import db from './db/construct';
 exports.db = { db };
 exports.default = core;*/
 export default core;
-export { db };
+export { db, core as proxyGrabber };

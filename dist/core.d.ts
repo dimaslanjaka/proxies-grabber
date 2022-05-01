@@ -61,4 +61,4 @@ interface TestResult {
     message?: string;
     code?: number;
 }
-export {};
+export { proxyGrabber };
