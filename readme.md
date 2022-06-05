@@ -1,7 +1,7 @@
 # NodeJS Public Proxy Grabber
 
-![types](https://badgen.net/npm/types/proxies-grabber)
-![version](https://badgen.net/npm/v/proxies-grabber)
+![types](https://badgen.net/npm/types/proxies-grabber?style=flat-square)
+![version](https://badgen.net/npm/v/proxies-grabber?style=flat-square)
 
 typescript
 ```ts
