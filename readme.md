@@ -1,5 +1,8 @@
 # NodeJS Public Proxy Grabber
 
+![types](https://badgen.net/npm/types/proxies-grabber)
+![version](https://badgen.net/npm/v/proxies-grabber)
+
 typescript
 ```ts
 import proxyGrabber from 'proxies-grabber';
