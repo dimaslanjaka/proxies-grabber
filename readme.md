@@ -23,3 +23,5 @@ grabber.get().then(function (proxies) {
 Read More: [Gulpfile](./gulpfile.ts)
 
 Github: https://github.com/dimaslanjaka/proxies-grabber
+
+NPM: https://www.npmjs.com/package/proxies-grabber
