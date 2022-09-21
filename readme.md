@@ -1,5 +1,8 @@
 # NodeJS Public Proxy Grabber
 
+![types](https://badgen.net/npm/types/proxies-grabber?style=flat-square)
+![version](https://badgen.net/npm/v/proxies-grabber?style=flat-square)
+
 typescript
 ```ts
 import proxyGrabber from 'proxies-grabber';
@@ -20,3 +23,5 @@ grabber.get().then(function (proxies) {
 Read More: [Gulpfile](./gulpfile.ts)
 
 Github: https://github.com/dimaslanjaka/proxies-grabber
+
+NPM: https://www.npmjs.com/package/proxies-grabber
