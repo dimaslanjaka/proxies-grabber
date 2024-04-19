@@ -11,6 +11,7 @@ grabber.get().then(function(proxies){
   console.log(proxies);
 })
 ```
+
 javascript
 ```js
 const proxyGrabber = require('proxies-grabber').default;
@@ -21,6 +22,8 @@ grabber.get().then(function (proxies) {
 ```
 
 Read More: [Gulpfile](./gulpfile.ts)
+
+See also: [PHP Proxy Hunter](https://github.com/dimaslanjaka/php-proxy-hunter)
 
 Github: https://github.com/dimaslanjaka/proxies-grabber
 
