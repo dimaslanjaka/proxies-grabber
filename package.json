@@ -8,7 +8,8 @@
     "lint": "eslint '*/**/*.{js,ts,html}' --quiet --fix",
     "build": "rm -rf dist && tsc -p tsconfig.base.json",
     "docs": "yarn build && gulp docs",
-    "clean": "rm -rf dist databases"
+    "clean": "rm -rf dist databases",
+    "fix": "npm install node-libcurl --build-from-source"
   },
   "keywords": [
     "proxy",
@@ -33,7 +34,6 @@
     "jsdom": "^19.0.0",
     "moment": "^2.29.1",
     "node-html-parser": "^5.1.0",
-    "node-libcurl": "^2.3.4",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
