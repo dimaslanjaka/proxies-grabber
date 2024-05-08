@@ -7,6 +7,9 @@
     "outDir": "./dist",
     "module": "CommonJS",
     "target": "ES5",
+    "lib": [
+      "ES2015", "DOM"
+    ],
     "downlevelIteration": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
