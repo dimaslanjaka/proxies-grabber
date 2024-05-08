@@ -1,0 +1,4 @@
+[submodule "packages/php-proxy-hunter"]
+	path = packages/php-proxy-hunter
+	url = https://github.com/dimaslanjaka/php-proxy-hunter
+	branch = master
