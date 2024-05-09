@@ -6,3 +6,5 @@ docs
 package-lock.json
 free-*
 tmp/
+.yarn/*.gz
+yarn.lock

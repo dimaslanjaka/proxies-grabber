@@ -1,4 +1,4 @@
-export declare type returnObj = {
+export type returnObj = {
     /**
      * IP:PORT
      */

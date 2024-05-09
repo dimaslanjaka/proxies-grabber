@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
-declare type ObjectAlias = object;
-declare type AxiosConfigShadow = AxiosRequestConfig & ObjectAlias & {
+type ObjectAlias = object;
+type AxiosConfigShadow = AxiosRequestConfig & ObjectAlias & {
     [key: string]: any;
 };
 export declare function get(url: string, options?: AxiosConfigShadow): Promise<import("axios").AxiosResponse<any, any>>;
