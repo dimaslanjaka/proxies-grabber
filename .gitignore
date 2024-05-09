@@ -8,3 +8,4 @@ free-*
 tmp/
 .yarn/*.gz
 yarn.lock
+/package.tgz
