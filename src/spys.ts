@@ -1,5 +1,5 @@
 import { curly } from 'node-libcurl';
-import Promise from 'bluebird';
+import Bluebird from 'bluebird';
 import { parser } from './parser/spys.txt';
 export { returnObj as returnObj, parser as parse } from './parser/spys.txt';
 
@@ -8,7 +8,7 @@ export { returnObj as returnObj, parser as parse } from './parser/spys.txt';
  * @returns
  */
 export default function spys() {
-  return Promise.resolve(curly.get('https://spys.me/proxy.txt')).then((res) => {
+  return Bluebird.resolve(curly.get('https://spys.me/proxy.txt')).then((res) => {
     if (res.statusCode == 200) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const regex =
