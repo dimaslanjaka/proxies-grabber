@@ -9,3 +9,5 @@ tmp/
 .yarn/*.gz
 yarn.lock
 /package.tgz
+.cache/
+.env
