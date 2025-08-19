@@ -37,5 +37,6 @@
   "code-runner.executorMapByGlob": {
     // code runner executor map by glob
     "*.test.{ts,cjs,js,mjs}": "yarn test -- $fileNameWithoutExt"
-  }
+  },
+  "eslint.useFlatConfig": true
 }
