@@ -1,52 +1,63 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import * as HttpsProxyAgent from 'https-proxy-agent';
+import got, { OptionsOfTextResponseBody } from 'got';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import { HttpProxyAgent } from 'http-proxy-agent';
 
 type ObjectAlias = object;
-type AxiosConfigShadow = AxiosRequestConfig &
+type GotConfigShadow = OptionsOfTextResponseBody &
   ObjectAlias & {
     [key: string]: any;
   };
-
-const axiosDefault = (url: string): AxiosConfigShadow => {
+function gotDefault(url: string): GotConfigShadow {
   return {
-    baseURL: url,
+    url,
     maxRedirects: 5,
-    timeout: 60 * 1000,
+    timeout: { request: 60 * 1000 },
     headers: {
       'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
       Referer: 'http://google.com/crawler'
-    }
+    },
+    retry: { limit: 0 },
+    responseType: 'text',
+    decompress: true
   };
-};
-
-export async function get(url: string, options?: AxiosConfigShadow) {
-  const opt = ObjectReplaceFrom(axiosDefault(url), options);
-  const instance = axios.create(opt);
-
-  const res = await instance.get(url);
-  const statusCode = res.status;
-  if (statusCode == 301 || statusCode == 302) {
-    console.log(res.headers);
-    return null;
-  }
-  return res;
-  /*.catch((reason: AxiosError) => {
-      if (reason.response?.status === 400) {
-        // Handle 400
-      } else {
-        // Handle else
-      }
-      return reason;
-    });*/
 }
 
-export function testProxy(proxy: string, target = 'http://google.com', options?: AxiosConfigShadow) {
-  const def = {
-    proxy: false,
-    httpsAgent: new HttpsProxyAgent.HttpsProxyAgent('http://' + proxy.replace(/https?:\/\//, ''))
-  };
+export async function get(url: string, options?: GotConfigShadow) {
+  const opt = ObjectReplaceFrom(gotDefault(url), options);
+  // Proxy/agent support
+  if (opt.proxy) {
+    const proxyUrl = opt.proxy;
+    if (typeof opt.url === 'string' && opt.url.startsWith('https://')) {
+      opt.agent = { https: new HttpsProxyAgent(proxyUrl) };
+    } else {
+      opt.agent = { http: new HttpProxyAgent(proxyUrl) };
+    }
+    delete opt.proxy;
+  }
+  try {
+    const res = await got(opt);
+    // Mimic Axios response structure
+    return {
+      status: res.statusCode,
+      headers: res.headers,
+      data: res.body
+    };
+  } catch (err: any) {
+    if (err.response) {
+      // Mimic Axios error structure
+      err.status = err.response.statusCode;
+      err.headers = err.response.headers;
+      err.data = err.response.body;
+    }
+    throw err;
+  }
+}
 
+export function testProxy(proxy: string, target = 'http://google.com', options?: GotConfigShadow) {
+  const def = {
+    proxy: 'http://' + proxy.replace(/https?:\/\//, '')
+  };
   return get(target, Object.assign(def, options));
 }
 
@@ -61,7 +72,7 @@ function ObjectReplaceFrom<T>(obj: T, anotherobj: Record<string, any>): T {
     for (const key in anotherobj) {
       if (Object.prototype.hasOwnProperty.call(anotherobj, key)) {
         const element = anotherobj[key];
-        obj[key] = element;
+        (obj as any)[key] = element;
       }
     }
   }
@@ -69,7 +80,7 @@ function ObjectReplaceFrom<T>(obj: T, anotherobj: Record<string, any>): T {
 }
 
 export default {
-  testProxy,
+  testProxy: testProxy,
   curlGET: get,
-  ObjectReplaceFrom
+  ObjectReplaceFrom: ObjectReplaceFrom
 };
