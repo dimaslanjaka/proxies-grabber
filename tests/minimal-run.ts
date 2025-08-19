@@ -1,13 +1,9 @@
-import whyIsNodeRunning from 'why-is-node-running'; // should be your first import
-
-// Minimal run script to test the proxyGrabber functionality
-import 'dotenv/config'; // Load environment variables from .env file
-
+import 'dotenv/config';
 import proxyGrabber from '../src/index.js';
 
 const grabber = new proxyGrabber();
 grabber
-  .get()
+  .method1()
   .then(function (proxies) {
     console.log(proxies.map((o) => o.proxy).join('\n'));
   })
@@ -17,9 +13,6 @@ grabber
       console.error('Status:', err.response.status);
       // console.error('Response data:', err.response.data);
     }
-  })
-  .finally(() => {
-    whyIsNodeRunning();
   });
 
 // run this file with:
