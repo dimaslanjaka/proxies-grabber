@@ -121,16 +121,22 @@ export default class proxyGrabber {
   }
 
   async testSingleProxy(obj: Partial<returnObj>) {
-    const result: TestResult = { error: true, proxy: null, message: null, anonymity: null, code: 0 };
+    const result: TestResult = { error: true, proxy: {}, message: undefined, anonymity: undefined, code: 0 };
     try {
+      if (typeof obj.proxy !== 'string') {
+        throw new Error('Proxy is undefined or not a string');
+      }
       const res = await curl.testProxy(obj.proxy, 'https://httpbin.org/get', {
         headers: {
           Accept: 'application/json'
         }
       });
 
-      //console.log(res.headers[1]['content-type'] == 'application/json');
-      result.error = res.status != 200 && res.headers[1]['content-type'] != 'application/json';
+      // Parse response data as JSON
+      const data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+
+      //console.log(res.headers['content-type'] == 'application/json');
+      result.error = res.status != 200 && (!res.headers || res.headers['content-type'] != 'application/json');
       result.proxy = obj;
 
       // @todo anonymity test
@@ -212,18 +218,18 @@ export default class proxyGrabber {
         'XROXY-CONNECTION'
       ];
       // @todo transform all keys to be uppercased
-      const headers: { [key: string]: string } = res.data.headers;
-      Object.keys(headers).map((key) => {
+      const headers = data.headers;
+      Object.keys(headers).forEach((key) => {
         headers[key.toUpperCase()] = headers[key];
-        delete headers[key];
+        if (key !== key.toUpperCase()) delete headers[key];
       });
 
       const isleaked = proxyDetections.some((h) => typeof headers[h] !== 'undefined');
       const splitProxy = obj.proxy.split(':').map((s) => s.trim());
       const ip = splitProxy[0];
       //const port = splitProxy[1];
-      //console.log({ proxy: ip, origin: res.data.origin });
-      if (res.data.origin != ip) {
+      //console.log({ proxy: ip, origin: data.origin });
+      if (data.origin != ip) {
         result.anonymity = 'T';
       } else if (isleaked) {
         result.anonymity = 'A';
@@ -243,8 +249,12 @@ export default class proxyGrabber {
     } catch (e) {
       result.error = true;
       result.proxy = obj;
-      result.message = e.message;
-      result.code = parseInt(e['code']);
+      if (e instanceof Error) {
+        result.message = e.message;
+      } else {
+        result.message = String(e);
+      }
+      result.code = typeof e === 'object' && e !== null && 'code' in e ? parseInt((e as any)['code']) : 0;
       return result;
     }
   }
@@ -261,7 +271,7 @@ export default class proxyGrabber {
       let results: TestResult[] = [];
       return Bluebird.all(getProxies).map(async (proxies, index) => {
         // calculate database key
-        let dbKey: string;
+        let dbKey: string | undefined = undefined;
         switch (index) {
           case 0: // this.method1 database key
             dbKey = '/spys/proxies';
@@ -274,7 +284,7 @@ export default class proxyGrabber {
             break;
         }
 
-        if (dbKey) {
+        if (typeof dbKey !== 'undefined') {
           let proxiesToTest = shuffle(uniqueArrayByObjectKey(proxies, 'proxy'));
           if (limit > 0) proxiesToTest = proxiesToTest.slice(0, limit);
           const test = self.testProxies(proxiesToTest, dbKey).map(async (tested) => {
@@ -300,7 +310,7 @@ export default class proxyGrabber {
 }
 
 interface TestResult {
-  anonymity: 'T' | 'H' | 'A';
+  anonymity?: 'T' | 'H' | 'A';
   error: boolean;
   proxy: Partial<returnObj>;
   ip?: string;
