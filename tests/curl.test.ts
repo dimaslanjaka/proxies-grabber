@@ -1,4 +1,7 @@
-import { get, testProxy } from '../src/curl';
+import { get, post, testProxy } from '../src/curl';
+import fs from 'fs';
+import path from 'path';
+import FormData from 'form-data';
 
 describe('curl.ts', () => {
   it('should fetch a page and return status/data/headers', async () => {
@@ -42,5 +45,38 @@ describe('curl.ts', () => {
     expect(res).toHaveProperty('data');
     expect(typeof res.data).toBe('string');
     expect(res.data).toMatch(/<note>/);
+  });
+
+  it('should POST JSON and receive it back', async () => {
+    const payload = { foo: 'bar', num: 42 };
+    const res = await post('https://httpbin.org/post', payload);
+    expect(res).toHaveProperty('status', 200);
+    expect(typeof res.data).toBe('string');
+    const json = JSON.parse(res.data);
+    expect(json.json).toEqual(payload);
+  });
+
+  it('should POST www-form-urlencoded and receive it back', async () => {
+    const params = new URLSearchParams({ foo: 'bar', num: '42' });
+    const res = await post('https://httpbin.org/post', params.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+    expect(res).toHaveProperty('status', 200);
+    expect(typeof res.data).toBe('string');
+    const json = JSON.parse(res.data);
+    expect(json.form).toEqual({ foo: 'bar', num: '42' });
+  });
+
+  it('should POST a file (multipart/form-data) and receive it back', async () => {
+    const form = new FormData();
+    form.append('file', fs.createReadStream(path.join(__dirname, 'curl.test.ts')));
+    const res = await post('https://httpbin.org/post', form, {
+      headers: form.getHeaders()
+    });
+    expect(res).toHaveProperty('status', 200);
+    expect(typeof res.data).toBe('string');
+    const json = JSON.parse(res.data);
+    expect(json.files).toHaveProperty('file');
+    expect(json.files.file).toMatch(/import\s+\{\s*get,/); // file content snippet
   });
 });
