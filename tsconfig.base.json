@@ -5,11 +5,9 @@
     "allowJs": true,
     "allowUnusedLabels": true,
     "outDir": "./dist",
-    "module": "CommonJS",
-    "target": "ES5",
-    "lib": [
-      "ES2015", "DOM"
-    ],
+    "module": "ESNext",
+    "target": "ES2020",
+    "lib": ["ES2015", "DOM"],
     "downlevelIteration": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -30,7 +28,5 @@
     "**/.git/**",
     "./dist/**/*"
   ],
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }

@@ -1,4 +1,12 @@
 {
+  "terminal.integrated.env.linux": {
+    // linux custom PATH environment variable
+    "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/bin"
+  },
+  "terminal.integrated.env.windows": {
+    // windows custom PATH environment variable
+    "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
@@ -21,5 +29,13 @@
   },
   "files.associations": {
     "*.ejs": "html"
+  },
+  "code-runner.executorMap": {
+    "javascript": "node",
+    "typescript": "node --loader ts-node/esm"
+  },
+  "code-runner.executorMapByGlob": {
+    // code runner executor map by glob
+    "*.test.{ts,cjs,js,mjs}": "yarn test -- $fileNameWithoutExt"
   }
 }
