@@ -1,5 +1,6 @@
-import DBConstructor from './construct';
-//https://www.npmjs.com/package/node-json-db
-const getNodeVersion = parseInt(process.version.toLowerCase().replace('v', ''));
+import DBConstructor from './construct.js';
+
+// https://www.npmjs.com/package/node-json-db
+export const nodeVersion = parseInt(process.version.toLowerCase().replace('v', ''));
 
 export default DBConstructor;

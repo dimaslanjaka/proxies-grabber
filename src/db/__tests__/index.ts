@@ -14,5 +14,5 @@ console.log(
   db.get('/test/object'),
   db.get('/test/number'),
   db.get('/test/float'),
-  db.get('/test/string'),
+  db.get('/test/string')
 );

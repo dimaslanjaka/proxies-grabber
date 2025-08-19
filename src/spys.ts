@@ -1,7 +1,7 @@
 import Bluebird from 'bluebird';
-import { parser } from './parser/spys.txt';
-export { returnObj as returnObj, parser as parse } from './parser/spys.txt';
-import { get as curlGET } from './curl';
+import { parser } from './parser/spys.txt.js';
+export { returnObj as returnObj, parser as parse } from './parser/spys.txt.js';
+import { get as curlGET } from './curl.js';
 
 /**
  * Grab Spys

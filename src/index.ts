@@ -1,5 +1,5 @@
-import core from './core';
-import db from './db/construct';
+import core from './core.js';
+import db from './db/construct.js';
 
 export default core;
 export { db, core as proxyGrabber };

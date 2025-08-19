@@ -61,7 +61,7 @@ function parse(data: string) {
         google: null,
         alert: null,
         type: 'http',
-        test: null,
+        test: null
       };
       // [ '79.104.25.218:8080', 'RU-H-S', '-' ]
       const parse = str.split(/\s/);

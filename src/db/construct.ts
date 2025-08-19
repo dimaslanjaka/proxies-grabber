@@ -1,6 +1,6 @@
-import path, { dirname } from 'upath';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
-import { isFloat, isInt } from '../utils/number';
+import path from 'upath';
+import fs from 'fs-extra';
+import { isFloat, isInt } from '../utils/number.js';
 
 export default class DBConstructor {
   folder: string;
@@ -18,7 +18,7 @@ export default class DBConstructor {
    * @returns
    */
   exists(key: string) {
-    return existsSync(this.locationfile(key));
+    return fs.existsSync(this.locationfile(key));
   }
   /**
    * add data to table
@@ -47,8 +47,9 @@ export default class DBConstructor {
     this.save(key, content);
   }
   private save(key: string, content: any) {
-    if (!existsSync(dirname(this.locationfile(key)))) mkdirSync(dirname(this.locationfile(key)), { recursive: true });
-    writeFileSync(this.locationfile(key), content);
+    if (!fs.existsSync(path.dirname(this.locationfile(key))))
+      fs.mkdirSync(path.dirname(this.locationfile(key)), { recursive: true });
+    fs.writeFileSync(this.locationfile(key), content);
   }
   /**
    * Edit database key
@@ -104,14 +105,14 @@ export default class DBConstructor {
    */
   get<T>(
     key: string,
-    fallback?: T,
+    fallback?: T
   ): null | T | string | ReturnType<typeof JSON.parse> | ReturnType<typeof parseInt> | ReturnType<typeof parseFloat> {
     const ada = this.exists(key);
     if (!ada) {
       if (fallback) return fallback;
       return null;
     }
-    const content = readFileSync(this.locationfile(key)).toString().split(':');
+    const content = fs.readFileSync(this.locationfile(key)).toString().split(':');
     const value = Buffer.from(content[1], 'base64').toString('ascii');
 
     switch (content[0]) {

@@ -1,12 +1,12 @@
 import Promise from 'bluebird';
 import { JSDOM } from 'jsdom';
-import { get as curlGET } from './curl';
+import { get as curlGET } from './curl.js';
 import { returnObj } from './spys';
 
 //https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1-10
 export default function proxyListOrg() {
   return Promise.resolve(
-    curlGET('https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1'),
+    curlGET('https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1')
   ).then((res) => {
     const data = res.data;
     const buildObject: returnObj = {
@@ -17,7 +17,7 @@ export default function proxyListOrg() {
       google: null,
       alert: null,
       type: 'http',
-      test: null,
+      test: null
     };
     const resultWrapper: returnObj[] = [];
 

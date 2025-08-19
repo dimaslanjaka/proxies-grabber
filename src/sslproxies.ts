@@ -1,13 +1,13 @@
 import Promise from 'bluebird';
 import htmlParser from 'node-html-parser';
-import { get as curlGET } from './curl';
+import { get as curlGET } from './curl.js';
 import { returnObj } from './spys';
 
 export default function sslProxiesOrg() {
   return Promise.resolve(curlGET('http://www.sslproxies.org')).then((res) => {
     const data = res.data;
-    const regex = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}/gm;
-    const regex2 = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}:[0-9]{1,5}/gm;
+    const _regex = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}/gm;
+    const _regex2 = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}:[0-9]{1,5}/gm;
     const parser = htmlParser(data.toString());
     const objectWrapper: returnObj[] = [];
     parser.querySelectorAll('table').map((el) => {
@@ -20,7 +20,7 @@ export default function sslProxiesOrg() {
           google: null,
           alert: null,
           type: 'http',
-          test: null,
+          test: null
         };
         const td = tr.querySelectorAll('td');
         const proxy = td[0];

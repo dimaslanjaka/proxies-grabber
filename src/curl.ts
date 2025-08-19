@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 import axios, { AxiosRequestConfig } from 'axios';
-import HttpsProxyAgent from 'https-proxy-agent';
+import * as HttpsProxyAgent from 'https-proxy-agent';
 
 type ObjectAlias = object;
 type AxiosConfigShadow = AxiosRequestConfig &
@@ -17,8 +15,8 @@ const axiosDefault = (url: string): AxiosConfigShadow => {
     headers: {
       'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
-      Referer: 'http://google.com/crawler',
-    },
+      Referer: 'http://google.com/crawler'
+    }
   };
 };
 
@@ -46,7 +44,7 @@ export async function get(url: string, options?: AxiosConfigShadow) {
 export function testProxy(proxy: string, target = 'http://google.com', options?: AxiosConfigShadow) {
   const def = {
     proxy: false,
-    httpsAgent: HttpsProxyAgent('http://' + proxy.replace(/https?:\/\//, '')),
+    httpsAgent: new HttpsProxyAgent.HttpsProxyAgent('http://' + proxy.replace(/https?:\/\//, ''))
   };
 
   return get(target, Object.assign(def, options));
@@ -73,5 +71,5 @@ function ObjectReplaceFrom<T>(obj: T, anotherobj: Record<string, any>): T {
 export default {
   testProxy,
   curlGET: get,
-  ObjectReplaceFrom,
+  ObjectReplaceFrom
 };

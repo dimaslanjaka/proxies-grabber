@@ -1,12 +1,12 @@
-import dbl from './db';
-import spys, { returnObj } from './spys';
+import dbl from './db/index.js';
+import spys, { returnObj } from './spys.js';
 import moment from 'moment';
-import sslProxiesOrg from './sslproxies';
+import sslProxiesOrg from './sslproxies.js';
 import Bluebird from 'bluebird';
-import proxyListOrg from './proxylist';
+import proxyListOrg from './proxylist.js';
 import path from 'upath';
-import curl from './curl';
-import { shuffle, uniqueArrayByObjectKey } from './utils/array';
+import curl from './curl.js';
+import { shuffle, uniqueArrayByObjectKey } from './utils/array.js';
 const db = new dbl(path.join(process.cwd(), 'databases/proxies'));
 
 /**
