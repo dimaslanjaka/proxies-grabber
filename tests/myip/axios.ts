@@ -1,5 +1,5 @@
 import axios from 'axios';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 export default async function axiosTest(url = 'https://proxydb.net/anon', prx: string[]) {
   const options = [
@@ -7,20 +7,20 @@ export default async function axiosTest(url = 'https://proxydb.net/anon', prx: s
       proxy: {
         host: prx[0],
         port: parseInt(prx[1]),
-        protocol: 'http',
-      },
+        protocol: 'http'
+      }
     },
     {
       proxy: {
         host: prx[0],
         port: parseInt(prx[1]),
-        protocol: 'https',
-      },
+        protocol: 'https'
+      }
     },
     {
       proxy: false,
-      httpsAgent: HttpsProxyAgent('http://' + prx[0] + ':' + prx[1]),
-    },
+      httpsAgent: new HttpsProxyAgent('http://' + prx[0] + ':' + prx[1])
+    }
   ];
   for (let i = 0; i < options.length; i++) {
     const opt = options[i];
@@ -29,15 +29,15 @@ export default async function axiosTest(url = 'https://proxydb.net/anon', prx: s
       const response = await axios.get(
         url,
         Object.assign(<any>opt, {
-          timeout: 60 * 1000,
-        }),
+          timeout: 60 * 1000
+        })
       );
       if (response.status === 200) {
         const result = Object.assign(
           {
-            withOpt: opt.proxy,
+            withOpt: opt.proxy
           },
-          response,
+          response
         );
         return result;
       }
