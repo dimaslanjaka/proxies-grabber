@@ -24,7 +24,7 @@ export default class proxyGrabber {
   constructor(TTL = 1) {
     this.TTL = TTL;
   }
-  async method1(force = false): Bluebird<returnObj[]> {
+  async method1(force = false): Promise<returnObj[]> {
     const lastUpdated = db.exists('/spys/lastUpdated') ? db.get('/spys/lastUpdated') : 100;
     // if spys last grab is more than 1 day
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
@@ -36,7 +36,7 @@ export default class proxyGrabber {
     return Bluebird.resolve(db.get('/spys/proxies'));
   }
 
-  async method2(force = false): Bluebird<returnObj[]> {
+  async method2(force = false): Promise<returnObj[]> {
     const lastUpdated = db.exists('/sslProxiesOrg/lastUpdated') ? db.get('/sslProxiesOrg/lastUpdated') : 100;
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
       const proxies = await sslProxiesOrg();
@@ -52,7 +52,7 @@ export default class proxyGrabber {
    * @param force force update
    * @returns
    */
-  async method3(force = false): Bluebird<returnObj[]> {
+  async method3(force = false): Promise<returnObj[]> {
     const lastUpdated = db.exists('/proxyListOrg/lastUpdated') ? db.get('/proxyListOrg/lastUpdated') : 100;
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
       const proxies = await proxyListOrg();
@@ -125,8 +125,8 @@ export default class proxyGrabber {
     try {
       const res = await curl.testProxy(obj.proxy, 'https://httpbin.org/get', {
         headers: {
-          Accept: 'application/json',
-        },
+          Accept: 'application/json'
+        }
       });
 
       //console.log(res.headers[1]['content-type'] == 'application/json');
@@ -209,7 +209,7 @@ export default class proxyGrabber {
         'CLIENT-IP',
         'FORWARDED-FOR-IP',
         'PROXY-CONNECTION',
-        'XROXY-CONNECTION',
+        'XROXY-CONNECTION'
       ];
       // @todo transform all keys to be uppercased
       const headers: { [key: string]: string } = res.data.headers;
@@ -234,7 +234,7 @@ export default class proxyGrabber {
       console.log(
         obj.proxy,
         'anonymity is',
-        result.anonymity === 'T' ? 'Transparent' : result.anonymity === 'A' ? 'Anonymous' : 'High Anonymous',
+        result.anonymity === 'T' ? 'Transparent' : result.anonymity === 'A' ? 'Anonymous' : 'High Anonymous'
       );
 
       obj.test = !result.error ? 'PASSED' : 'FAILED';
@@ -310,5 +310,4 @@ interface TestResult {
   code?: number;
 }
 
-exports = proxyGrabber;
 export { proxyGrabber };

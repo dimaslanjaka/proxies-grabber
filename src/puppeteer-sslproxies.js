@@ -1,13 +1,10 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
-const sleep = require('./utils/sleep');
-/**
- * @type {import('axios').AxiosStatic}
- */
-const axios = require('axios');
+import puppeteer from 'puppeteer';
+import fs from 'fs';
+import path from 'path';
+import sleep from './utils/sleep.js';
+import axios from 'axios';
 
-function sslproxies_browser() {
+export default function sslproxies_browser() {
   return new Promise((resolve, reject) => {
     puppeteer
       .launch({ args: ['--no-sandbox', '--start-maximized'], headless: false, defaultViewport: null, timeout: 0 })
@@ -23,8 +20,11 @@ function sslproxies_browser() {
           .catch(reject);
         console.log('execute js string');
         const scriptContent = fs.readFileSync(
-          path.join(__dirname, '../packages/php-proxy-hunter/userscripts/sslproxies.js'),
-          'utf-8',
+          path.join(
+            path.dirname(new URL(import.meta.url).pathname),
+            '../packages/php-proxy-hunter/userscripts/sslproxies.js'
+          ),
+          'utf-8'
         );
         await page.evaluate(scriptContent);
         await page
@@ -52,7 +52,7 @@ function sslproxies_browser() {
           // Custom cookies
           const cookies = {
             __ga: 'value_of__ga_cookie',
-            _ga: 'value_of__ga_cookie',
+            _ga: 'value_of__ga_cookie'
           };
 
           // Convert cookies object to string
@@ -64,8 +64,8 @@ function sslproxies_browser() {
             .post('http://sh.webmanajemen.com/proxyAdd.php', new URLSearchParams({ proxies: result }), {
               withCredentials: true,
               headers: {
-                Cookie: cookieString,
-              },
+                Cookie: cookieString
+              }
             })
             // .then((res) => {
             //   console.log(res.data);
@@ -107,5 +107,3 @@ async function getActivePage(browser, timeout) {
   }
   // console.log('Unable to get active page');
 }
-
-module.exports = sslproxies_browser;
