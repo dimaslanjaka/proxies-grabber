@@ -23,7 +23,7 @@ const config: Config = {
   // collect coverage from src folder but ignore with negate patterns
   collectCoverageFrom: ['src/*.{js,ts}', '!**/node_modules/**', '!**/vendor/**', '!**/test/**', '!**/*.test.{js,ts}'],
   // test root directory
-  roots: [`<rootDir>/test`],
+  roots: [`<rootDir>/tests`],
   // ignore collect coverage from these patterns
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/tmp/', '/test/'],
   // test files with these patterns
@@ -43,7 +43,7 @@ const config: Config = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  // collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,

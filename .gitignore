@@ -11,3 +11,4 @@ yarn.lock
 /package.tgz
 .cache/
 .env
+coverage/
