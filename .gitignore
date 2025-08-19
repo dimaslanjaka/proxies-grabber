@@ -12,3 +12,4 @@ yarn.lock
 .cache/
 .env
 coverage/
+tests/proxies.txt

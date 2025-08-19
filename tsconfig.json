@@ -1,11 +1,93 @@
 {
-  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // Specify the ECMAScript target version for transpilation
+    "target": "ES2020",
+
+    // Specify the module system for the generated JavaScript
+    "module": "ESNext",
+
+    // Specify libraries to include in the compilation
+    "lib": ["ES2022", "DOM"],
+
+    // Define how module paths are resolved
+    "moduleResolution": "node",
+
+    // Specify directories for type definitions
+    "typeRoots": ["./types", "./node_modules/@types"],
+
+    // Enable importing JSON files as modules
+    "resolveJsonModule": true,
+
+    // Allow JavaScript files to be included in the project
+    "allowJs": true,
+
+    // Disable error reporting in JavaScript files
+    "checkJs": false,
+
+    // Generate declaration files for TypeScript files
+    "declaration": true,
+
+    // Generate source maps for debugging purposes
+    "sourceMap": true,
+
+    // Specify the directory for emitted files
+    "outDir": "./tmp/dist-project",
+
+    // Emit compliant JavaScript for iterables, which may be less performant
+    "downlevelIteration": true,
+
+    // Enable interoperability between ES Modules and CommonJS modules
+    "esModuleInterop": true,
+
+    // Enable strict type-checking options
+    "strict": true,
+
+    // Skip type checking for declaration files in `node_modules`
+    "skipLibCheck": true,
+
+    // Enable support for JSX/TSX
+    "jsx": "react-jsx"
+  },
+  "typeAcquisition": {
+    // Enable automatic type acquisition for JavaScript projects
+    "enable": true
+  },
   "include": [
-    "src",
-    "tests"
+    // Include specific directories and files in the compilation
+    "./node_browser",
+    "./src",
+    ".env.mjs",
+    "./node_backend",
+    "./types/**/*.d.ts",
+    "./tests/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    // Exclude specific directories and patterns from the compilation
+    "**/node_modules/**",
+    "**/build/**",
+    "**/app/**",
+    "**/tmp/**",
+    "**/.cache/**",
+    "**/__pycache__/**",
+    "**/dist/**",
+    "**/coverage/**",
+    "**/public/**",
+    "**/test-data/**",
+    "**/test-results/**"
+  ],
+  "ts-node": {
+    // Enable ECMAScript module support in ts-node
+    "esm": true,
+
+    // Allow experimental resolution of module specifiers
+    "experimentalSpecifierResolution": "node",
+
+    "compilerOptions": {
+      // Override module configuration for ts-node
+      "module": "ESNext",
+
+      // Disable strict type-checking in ts-node
+      "strict": false
+    }
+  }
 }
