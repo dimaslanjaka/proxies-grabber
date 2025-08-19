@@ -7,12 +7,6 @@
     // windows custom PATH environment variable
     "PATH": "${env:PATH};${workspaceFolder}\\node_modules\\.bin;${workspaceFolder}\\bin"
   },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "[typescript]": {
-    "editor.formatOnSave": false
-  },
   "javascript.suggestionActions.enabled": false,
   "files.exclude": {
     "**/.DS_Store": true,

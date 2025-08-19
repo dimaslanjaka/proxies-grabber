@@ -65,7 +65,7 @@ export default class DBConstructor {
         /**
          * get index array, if (-1) = not found
          */
-        const getIndex = get.findIndex((predicate: object) => {
+        const getIndex = get.findIndex((predicate: { [key: string]: any }) => {
           // if object by === predicate
           if (objectEquals(predicate, by)) return true;
           const keysBy = Object.keys(by);

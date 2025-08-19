@@ -24,7 +24,13 @@ export default class proxyGrabber {
   constructor(TTL = 1) {
     this.TTL = TTL;
   }
-  async method1(force = false): Promise<returnObj[]> {
+
+  /**
+   * Get proxies from spys
+   * @param force force update
+   * @returns
+   */
+  async method1(force = false): Promise<Partial<returnObj>[]> {
     const lastUpdated = db.exists('/spys/lastUpdated') ? db.get('/spys/lastUpdated') : 100;
     // if spys last grab is more than 1 day
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
@@ -36,7 +42,7 @@ export default class proxyGrabber {
     return Bluebird.resolve(db.get('/spys/proxies'));
   }
 
-  async method2(force = false): Promise<returnObj[]> {
+  async method2(force = false): Promise<Partial<returnObj>[]> {
     const lastUpdated = db.exists('/sslProxiesOrg/lastUpdated') ? db.get('/sslProxiesOrg/lastUpdated') : 100;
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
       const proxies = await sslProxiesOrg();
@@ -52,7 +58,7 @@ export default class proxyGrabber {
    * @param force force update
    * @returns
    */
-  async method3(force = false): Promise<returnObj[]> {
+  async method3(force = false): Promise<Partial<returnObj>[]> {
     const lastUpdated = db.exists('/proxyListOrg/lastUpdated') ? db.get('/proxyListOrg/lastUpdated') : 100;
     if (moment().diff(lastUpdated, 'days') > this.TTL || force) {
       const proxies = await proxyListOrg();
@@ -70,14 +76,14 @@ export default class proxyGrabber {
    */
   async get(proxy?: string) {
     //return Object.assign(this.method1(), this.method2());
-    const proxies = await this.method1();
+    // const proxies = await this.method1();
     const proxies2 = await this.method2();
     const proxies3 = await this.method3();
 
-    const merge = Object.assign(proxies, proxies2, proxies3);
+    const merge = Object.assign(proxies2, proxies3);
     if (typeof proxy === 'string') {
       const exactMatch = merge.find((o) => o.proxy === proxy);
-      const includeMatch = merge.find((o) => o.proxy.includes(proxy));
+      const includeMatch = merge.find((o) => typeof o.proxy === 'string' && o.proxy.includes(proxy));
       const same = JSON.stringify(exactMatch) == JSON.stringify(includeMatch);
       // @todo return single object if exact and includes is same
       if (same) return [exactMatch];

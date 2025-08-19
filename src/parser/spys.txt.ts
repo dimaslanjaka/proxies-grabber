@@ -42,7 +42,7 @@ export type returnObj = {
  * @returns
  */
 function parse(data: string) {
-  const result: returnObj[] = data
+  const result: Partial<returnObj>[] = data
     .split('\n')
     .map((s) => (typeof s == 'string' ? s.trim() : s))
     .filter((str) => {
@@ -53,33 +53,41 @@ function parse(data: string) {
     })
     .map((str) => {
       //IP address:Port CountryCode-Anonymity(Noa/Anm/Hia)-SSL_support(S)-Google_passed(+)
-      const buildObject: returnObj = {
-        proxy: null,
-        code: null,
-        anonymity: null,
-        ssl: null,
-        google: null,
-        alert: null,
+      const buildObject: Partial<returnObj> = {
+        proxy: undefined,
+        code: undefined,
+        anonymity: undefined,
+        ssl: undefined,
+        google: undefined,
+        alert: undefined,
         type: 'http',
-        test: null
+        test: undefined
       };
       // [ '79.104.25.218:8080', 'RU-H-S', '-' ]
       const parse = str.split(/\s/);
       buildObject.proxy = parse[0];
-      // split country code and anonymity
-      if (parse[1].includes('!')) {
-        buildObject.alert = true;
-        parse[1] = parse[1].replace('!', '');
+      // Defensive: check parse[1] exists
+      if (typeof parse[1] === 'string') {
+        if (parse[1].includes('!')) {
+          buildObject.alert = true;
+          parse[1] = parse[1].replace('!', '');
+        } else {
+          buildObject.alert = false;
+        }
+        const ctr = parse[1].split('-');
+        buildObject.code = ctr[0];
+        buildObject.anonymity = ctr[1];
+        // if contains `S` is SSL
+        if (typeof ctr[2] == 'string') buildObject.ssl = true;
       } else {
         buildObject.alert = false;
+        buildObject.code = undefined;
+        buildObject.anonymity = undefined;
+        buildObject.ssl = false;
       }
-      const ctr = parse[1].split('-');
-      buildObject.code = ctr[0];
-      buildObject.anonymity = ctr[1];
-      // if contains `S` is SSL
-      if (typeof ctr[2] == 'string') buildObject.ssl = true;
-      if (parse[2] == '+') {
-        buildObject.google = true;
+      // Defensive: check parse[2] exists
+      if (typeof parse[2] === 'string') {
+        buildObject.google = parse[2] == '+';
       } else {
         buildObject.google = false;
       }
