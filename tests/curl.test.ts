@@ -1,4 +1,5 @@
-import { get, post, testProxy } from '../src/curl';
+import { describe, it, expect } from '@jest/globals';
+import { get, post, testProxy } from '../src/curl.js';
 import fs from 'fs';
 import path from 'path';
 import FormData from 'form-data';

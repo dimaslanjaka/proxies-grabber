@@ -1,4 +1,5 @@
-import { extractProxies } from '../../src/parser/proxyParser';
+import { describe, it, expect } from '@jest/globals';
+import { extractProxies } from '../../src/parser/proxyParser.js';
 
 describe('extractProxies', () => {
   it('extracts IP:PORT', () => {

@@ -1,4 +1,5 @@
-import { proxyGrabber } from '../src/index';
+import { describe, it, expect } from '@jest/globals';
+import { proxyGrabber } from '../src/index.js';
 
 describe('proxyGrabber', () => {
   it('should fetch proxies', async () => {
