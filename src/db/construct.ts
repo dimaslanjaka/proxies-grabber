@@ -133,7 +133,7 @@ export default class DBConstructor {
   }
 }
 
-function objectEquals(x, y) {
+function objectEquals(x: any, y: any): boolean {
   'use strict';
 
   if (x === null || x === undefined || y === null || y === undefined) {
