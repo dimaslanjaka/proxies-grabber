@@ -31,8 +31,6 @@
     "./dist/**/*"
   ],
   "include": [
-    "src/**/*",
-    //"src/**/*",
-    //"../../../hexo-seo/packages/js-prototypes/src/**/*"
+    "src/**/*"
   ]
 }
