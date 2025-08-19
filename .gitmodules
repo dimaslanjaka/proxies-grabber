@@ -1,0 +1,4 @@
+[submodule "packages/browser-with-fingerprints"]
+	path = packages/browser-with-fingerprints
+	url = https://github.com/dimaslanjaka/browser-with-fingerprints.git
+	branch = master
