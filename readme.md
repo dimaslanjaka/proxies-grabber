@@ -3,6 +3,24 @@
 ![types](https://badgen.net/npm/types/proxies-grabber?style=flat-square)
 ![version](https://badgen.net/npm/v/proxies-grabber?style=flat-square)
 
+## Installation
+
+### Install (Production)
+
+```sh
+npm install proxies-grabber
+```
+
+### Install (Pre-release)
+
+```sh
+npm install proxies-grabber@https://github.com/dimaslanjaka/proxies-grabber/raw/master/release/proxies-grabber.tgz
+```
+
+> To use a specific build version, replace `/master/` with [`/<commit-hash>`](https://github.com/dimaslanjaka/proxies-grabber/commits/master/) in the URL above.
+
+## Usages
+
 typescript
 ```ts
 import proxyGrabber from 'proxies-grabber';
