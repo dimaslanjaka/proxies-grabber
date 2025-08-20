@@ -24,7 +24,8 @@
     "fix": "npm install node-libcurl --build-from-source",
     "update:ncu": "npx npm-check-updates -u -x @types/*,ts-node,typescript",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "pack": "node packer.cjs --yarn"
   },
   "keywords": [
     "proxy",

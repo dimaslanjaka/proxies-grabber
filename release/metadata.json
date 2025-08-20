@@ -1,0 +1,20 @@
+{
+  "/release/proxies-grabber-1.1.3.tgz": {
+    "integrity": {
+      "sha1": "74e68c09fc5fdb79661e08bb74520ed61adf03a7",
+      "sha256": "K/VuXeV+qdo07tzzh63Op9QUoqceHWZJwu6ZjjPOkGU=",
+      "md5": "ac8cc08db36fbd7ecd8b995f6d440837",
+      "sha512": "6OmaM5hXGBdcpdLRRFo/huP5PkfMewgh4kPCZwugNG8E2bn2sPSNJnw9vzSzZsMwD/Xou80S+AOO6kSaeeTqpg=="
+    },
+    "size": "13.46 KB"
+  },
+  "/release/proxies-grabber.tgz": {
+    "integrity": {
+      "sha1": "74e68c09fc5fdb79661e08bb74520ed61adf03a7",
+      "sha256": "K/VuXeV+qdo07tzzh63Op9QUoqceHWZJwu6ZjjPOkGU=",
+      "md5": "ac8cc08db36fbd7ecd8b995f6d440837",
+      "sha512": "6OmaM5hXGBdcpdLRRFo/huP5PkfMewgh4kPCZwugNG8E2bn2sPSNJnw9vzSzZsMwD/Xou80S+AOO6kSaeeTqpg=="
+    },
+    "size": "13.46 KB"
+  }
+}
