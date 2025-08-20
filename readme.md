@@ -17,7 +17,7 @@ npm install proxies-grabber
 npm install proxies-grabber@https://github.com/dimaslanjaka/proxies-grabber/raw/master/release/proxies-grabber.tgz
 ```
 
-> To use a specific build version, replace `/master/` with [`/<commit-hash>`](https://github.com/dimaslanjaka/proxies-grabber/commits/master/) in the URL above.
+> To use a specific build version, replace `/master/` with [`/<commit-hash>/`](https://github.com/dimaslanjaka/proxies-grabber/commits/master/) in the URL above.
 
 ## Usages
 
