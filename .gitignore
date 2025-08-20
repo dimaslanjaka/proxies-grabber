@@ -13,3 +13,4 @@ yarn.lock
 .env
 coverage/
 tests/proxies.txt
+assets/proxies/
