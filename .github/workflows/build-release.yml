@@ -46,7 +46,7 @@ jobs:
         id: git_status
         run: |
           git add -N release/
-          if ! git diff --cached --quiet -- release/; then
+          if [ $(git status --porcelain release | wc -l) -gt "0" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
