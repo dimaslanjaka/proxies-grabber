@@ -1,5 +1,4 @@
 import Promise from 'bluebird';
-import htmlParser from 'node-html-parser';
 import { get as curlGET } from './curl.js';
 import { returnObj } from './spys';
 
@@ -8,6 +7,8 @@ export default async function sslProxiesOrg() {
   const data = res.data;
   const _regex = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}/gm;
   const _regex2 = /[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}.[0-9]{1,4}:[0-9]{1,5}/gm;
+  const mod = await import('node-html-parser');
+  const htmlParser = mod.parse || mod.default || mod;
   const parser = htmlParser(data.toString());
   const objectWrapper: Partial<returnObj>[] = [];
   parser.querySelectorAll('table').map((el) => {
@@ -30,7 +31,6 @@ export default async function sslProxiesOrg() {
       const google = td[5];
       const ssl = td[6];
       if (proxy && /^\d/.test(proxy.rawText)) {
-        //console.log(proxy.rawText, port.rawText, countryCode.rawText, anonymity.rawText, google.rawText, ssl.rawText);
         buildObject.proxy = `${proxy.rawText.trim()}:${port.rawText.trim()}`;
         buildObject.google = /^yes/.test(google.rawText.trim()) ? true : false;
         buildObject.ssl = /^yes/.test(ssl.rawText.trim()) ? true : false;
@@ -42,7 +42,6 @@ export default async function sslProxiesOrg() {
           case 'anonymous':
             buildObject.anonymity = 'A';
             break;
-
           default:
             buildObject.anonymity = 'N';
             break;
