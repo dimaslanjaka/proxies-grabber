@@ -68,7 +68,7 @@ jobs:
         if: steps.git_status.outputs.changed == 'true'
         run: |
           LATEST_HASH=$(git rev-parse HEAD)
-          echo "[release] update for https://github.com/dimaslanjaka/proxies-grabber/commit/$LATEST_HASH" > commit-msg.txt
+          echo "chore(release): update release assets for https://github.com/${{ github.repository }}/commit/$LATEST_HASH" > commit-msg.txt
           git commit -F commit-msg.txt
 
       - name: '🚀 Push changes'
