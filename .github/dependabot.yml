@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: 'yarn'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(deps)'
+    labels:
+      - 'dependencies'
+    ignore:
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
