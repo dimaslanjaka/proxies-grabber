@@ -60,5 +60,6 @@
     "markdown",
     "json",
     "jsonc"
-  ]
+  ],
+  "git.autoStash": true
 }
