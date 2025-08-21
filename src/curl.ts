@@ -1,4 +1,4 @@
-import got, { OptionsOfTextResponseBody } from 'got';
+import { OptionsOfTextResponseBody } from 'got';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
@@ -7,6 +7,17 @@ type GotConfigShadow = OptionsOfTextResponseBody & {
   proxy?: string | undefined;
   [key: string]: any;
 };
+
+/**
+ * Dynamic got import for ESM/CJS compatibility
+ * @param url The request URL.
+ * @param options Optional request options.
+ */
+async function got(url: string | URL, options?: OptionsOfTextResponseBody) {
+  const mod = await import('got');
+  const lib = mod.default || mod;
+  return lib(url, options);
+}
 
 /**
  * Returns a default got config for the given URL.
