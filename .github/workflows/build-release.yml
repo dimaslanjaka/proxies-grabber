@@ -34,7 +34,9 @@ jobs:
         run: npm i -g npm gulp-cli typescript ts-node
 
       - name: Install dependencies
-        run: yarn
+        run: |
+          touch yarn.lock
+          yarn install
 
       - name: Build
         run: yarn build
