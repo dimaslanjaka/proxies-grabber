@@ -18,33 +18,33 @@ jobs:
           submodules: recursive
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - name: Setup GitHub
+      - name: '🔧 Setup GitHub'
         run: |
           git config --local user.email "dimaslanjaka@gmail.com"
           git config --local user.name "dimaslanjaka"
 
-      - name: Use Node.js
+      - name: '🟢 Use Node.js'
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
           cache: 'yarn'
           cache-dependency-path: '**/package.json'
 
-      - name: Install Global Dependencies
+      - name: '📦 Install Global Dependencies'
         run: npm i -g npm gulp-cli typescript ts-node
 
-      - name: Install dependencies
+      - name: '📥 Install dependencies'
         run: |
           touch yarn.lock
           yarn install
 
-      - name: Build
+      - name: '🏗️ Build'
         run: yarn build
 
-      - name: Pack
+      - name: '📦 Pack'
         run: yarn run pack
 
-      - name: Check for changes in release/
+      - name: '🔍 Check for changes in release/'
         id: git_status
         run: |
           git add -N release/
@@ -54,18 +54,18 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Add release/ if changed
+      - name: '➕ Add release/ if changed'
         if: steps.git_status.outputs.changed == 'true'
         run: git add release/
 
-      - name: Commit if release/ changed
+      - name: '💾 Commit if release/ changed'
         if: steps.git_status.outputs.changed == 'true'
         run: |
           LATEST_HASH=$(git rev-parse HEAD)
           echo "[release] update for https://github.com/dimaslanjaka/proxies-grabber/commit/$LATEST_HASH" > commit-msg.txt
           git commit -F commit-msg.txt
 
-      - name: Push changes
+      - name: '🚀 Push changes'
         if: steps.git_status.outputs.changed == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
