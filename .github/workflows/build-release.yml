@@ -1,0 +1,65 @@
+name: Build and Pack
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: dimaslanjaka/proxies-grabber
+          submodules: recursive
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Setup GitHub
+        run: |
+          git config --local user.email "dimaslanjaka@gmail.com"
+          git config --local user.name "dimaslanjaka"
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+          cache: 'yarn'
+
+      - name: Install Global Dependencies
+        run: npm i -g npm gulp-cli typescript ts-node
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Pack
+        run: yarn run pack
+
+      - name: Check for changes in release/
+        id: git_status
+        run: |
+          git add -N release/
+          if ! git diff --cached --quiet -- release/; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add release/ if changed
+        if: steps.git_status.outputs.changed == 'true'
+        run: git add release/
+
+      - name: Commit if release/ changed
+        if: steps.git_status.outputs.changed == 'true'
+        run: |
+          LATEST_HASH=$(git rev-parse HEAD)
+          echo "[release] update for https://github.com/dimaslanjaka/proxies-grabber/commit/$LATEST_HASH" > commit-msg.txt
+          git commit -F commit-msg.txt
+
+      - name: Push changes
+        if: steps.git_status.outputs.changed == 'true'
+        run: git push
