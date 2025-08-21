@@ -1,21 +1,21 @@
 {
   "/release/proxies-grabber-1.1.3.tgz": {
     "integrity": {
-      "sha1": "14db09b1beb928f37b0faed69ad640d8cf0db1df",
-      "sha256": "IkkmcNWPjP6o4Uq3m2tE++aYhcj2vtv4P1bRvZwm9u8=",
-      "md5": "4d3c7c4d3651462fc5d8c83c9b219b72",
-      "sha512": "wPGoLHbXpCm2tv4fDD9xn1rAOEYP+RxNZ9ZojGiDASnao+9zsu5vGyZ6YQU9hFYi0/ic/ruEsbnGqCSbmywuhA=="
+      "sha1": "9ab82d069de070a6eda278ce3c89b1007e8c9941",
+      "sha256": "X47139pKHCO5G3fLYTPljqYD8mt0iSjYUeroSxhWM0s=",
+      "md5": "c63f1bd11df9fa5fe6918b95ec1c29b9",
+      "sha512": "u+8HCG5YY3b9p5DMetcQYIsu3tcE+6IHQtvsxgLrYKA0Xffuf3P1HD0powm6KYWqtZYt5yCgDct+fSy3AbZraw=="
     },
-    "size": "47.43 KB"
+    "size": "47.45 KB"
   },
   "/release/proxies-grabber.tgz": {
     "integrity": {
-      "sha1": "14db09b1beb928f37b0faed69ad640d8cf0db1df",
-      "sha256": "IkkmcNWPjP6o4Uq3m2tE++aYhcj2vtv4P1bRvZwm9u8=",
-      "md5": "4d3c7c4d3651462fc5d8c83c9b219b72",
-      "sha512": "wPGoLHbXpCm2tv4fDD9xn1rAOEYP+RxNZ9ZojGiDASnao+9zsu5vGyZ6YQU9hFYi0/ic/ruEsbnGqCSbmywuhA=="
+      "sha1": "9ab82d069de070a6eda278ce3c89b1007e8c9941",
+      "sha256": "X47139pKHCO5G3fLYTPljqYD8mt0iSjYUeroSxhWM0s=",
+      "md5": "c63f1bd11df9fa5fe6918b95ec1c29b9",
+      "sha512": "u+8HCG5YY3b9p5DMetcQYIsu3tcE+6IHQtvsxgLrYKA0Xffuf3P1HD0powm6KYWqtZYt5yCgDct+fSy3AbZraw=="
     },
-    "size": "47.43 KB"
+    "size": "47.45 KB"
   },
   "/yarn.lock": {
     "integrity": {
