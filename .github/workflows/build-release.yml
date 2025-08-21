@@ -1,7 +1,12 @@
-name: Build and Pack
+name: Build Tarball
 
 on:
   push:
+
+# Ensure only one workflow runs at a time per branch, canceling in-progress jobs
+concurrency:
+  group: build-release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-and-pack:
