@@ -115,4 +115,4 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
         shell: cmd
         run: |
-          call "${{ github.workspace }}/bin/clear-github-actions-cache.cmd"
+          npx binary-collections@https://raw.githubusercontent.com/dimaslanjaka/bin/master/releases/bin.tgz clean-github-actions-caches --token ${{ secrets.ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
