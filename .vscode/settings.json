@@ -32,5 +32,33 @@
     // code runner executor map by glob
     "*.test.{ts,cjs,js,mjs}": "yarn test -- $fileNameWithoutExt"
   },
-  "eslint.useFlatConfig": true
+  "eslint.useFlatConfig": true,
+  "eslint.probe": [
+    "astro",
+    "civet",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "mdx",
+    "vue",
+    "markdown",
+    "json",
+    "jsonc"
+  ],
+  "eslint.validate": [
+    "astro",
+    "civet",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "mdx",
+    "vue",
+    "markdown",
+    "json",
+    "jsonc"
+  ]
 }
