@@ -15,8 +15,15 @@ type GotConfigShadow = OptionsOfTextResponseBody & {
  */
 async function got(url: string | URL, options?: OptionsOfTextResponseBody) {
   const mod = await import('got');
-  const lib = mod.default || mod;
-  return lib(url, options);
+  let lib: ReturnType<(typeof import('got'))['got']> | null = null;
+  if (typeof mod.default === 'function') {
+    lib = mod.default as any;
+  } else if (typeof mod === 'function') {
+    lib = mod as any;
+  } else {
+    throw new Error('Could not resolve got function from import.');
+  }
+  return (lib as any)(url, options);
 }
 
 /**
