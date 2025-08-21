@@ -14,38 +14,38 @@ const Socket = net.Socket;
  * @throws Throws an error if none of the services return a valid IP address.
  */
 export async function getPublicIP(): Promise<string> {
-  const urls = ['https://api.ipify.org?format=json', 'https://ifconfig.me/all.json', 'https://ipinfo.io/json'];
+  // List of services and their response type
+  const services: Array<{
+    url: string;
+    type: 'json' | 'text';
+    field?: string; // field in JSON response
+  }> = [
+    { url: 'https://api.ipify.org?format=json', type: 'json', field: 'ip' },
+    { url: 'https://ifconfig.me/all.json', type: 'json', field: 'ip_addr' },
+    { url: 'https://ipinfo.io/json', type: 'json', field: 'ip' },
+    { url: 'https://v4.ident.me/json', type: 'json', field: 'ip' },
+    { url: 'https://canhazip.com/', type: 'text' },
+    { url: 'https://checkip.amazonaws.com/', type: 'text' }
+  ];
 
-  for (const url of urls) {
+  for (const service of services) {
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(service.url, { timeout: 5000 });
       let ip: string | undefined;
 
-      // Determine which field contains the IP address based on the URL
-      switch (url) {
-        case 'https://api.ipify.org?format=json':
-          ip = response.data.ip;
-          break;
-        case 'https://ifconfig.me/all.json':
-          ip = response.data.ip_addr;
-          break;
-        case 'https://ipinfo.io/json':
-          ip = response.data.ip;
-          break;
-        default:
-          continue; // Skip unknown URLs
+      if (service.type === 'json') {
+        ip = response.data?.[service.field!];
+      } else if (service.type === 'text') {
+        ip = typeof response.data === 'string' ? response.data.trim() : undefined;
       }
 
-      // Validate IP address format
-      if (!ip) {
-        throw new Error(`No IP address found in response from ${url}`);
-      }
-      if (isValidIp(ip)) {
+      if (ip && isValidIp(ip)) {
         return ip;
       }
-    } catch (error) {
-      console.error(`Error fetching IP address from ${url}:`, error);
-      // Continue to the next URL if there is an error
+    } catch (_error) {
+      // Only log in debug mode or if needed
+      // console.error(`Error fetching IP address from ${service.url}:`, error);
+      continue;
     }
   }
 
