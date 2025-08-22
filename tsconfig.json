@@ -81,6 +81,7 @@
 
     // Allow experimental resolution of module specifiers
     "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
 
     "compilerOptions": {
       // Override module configuration for ts-node
