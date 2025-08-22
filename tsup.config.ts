@@ -9,7 +9,8 @@ const config = defineConfig({
   outDir: 'dist',
   target: 'node16',
   splitting: false,
-  shims: false
+  shims: false,
+  external: ['net', 'tls', 'https-proxy-agent', 'socks-proxy-agent', 'http-proxy-agent']
 });
 
 export default config;
