@@ -1,5 +1,8 @@
 import path from 'upath';
-import dbProxy from '..';
+import { fileURLToPath } from 'url';
+import dbProxy from '../../src/db/index.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const db = new dbProxy(path.join(__dirname, 'databases'));
 if (!db.exists('/test')) {
   db.push('/test/string', 'string db');
