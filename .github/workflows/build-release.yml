@@ -41,11 +41,11 @@ jobs:
 
       - name: '📥 Install dependencies'
         run: |
-          touch yarn.lock
-          yarn install
+          yarn install || (echo "Install failed, retrying with clean install..." && rm -rf node_modules yarn.lock && touch yarn.lock && yarn install)
 
       - name: '🏗️ Build'
-        run: yarn build
+        run: |
+          yarn build || (echo "Build failed, retrying after clean install..." && rm -rf node_modules yarn.lock && touch yarn.lock && yarn install && yarn build)
 
       - name: '📦 Pack'
         run: yarn run pack
