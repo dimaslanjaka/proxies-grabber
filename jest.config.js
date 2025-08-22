@@ -57,6 +57,7 @@ export default {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   setupFiles: ['<rootDir>/jest.setup.js'],
+  roots: ['<rootDir>/src', '<rootDir>/tests'],
   testTimeout: 120000,
   detectOpenHandles: true,
   modulePathIgnorePatterns: ['<rootDir>/test/package.json']
