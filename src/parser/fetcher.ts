@@ -94,11 +94,12 @@ function decompressRequestsResponse(response: AxiosResponse) {
   const buffer = Buffer.isBuffer(response.data) ? response.data : Buffer.from(response.data);
 
   if (encoding === 'gzip') {
-    return zlib.gunzipSync(buffer).toString('utf-8');
+    return zlib.gunzipSync(new Uint8Array(buffer)).toString('utf-8');
   } else if (encoding === 'deflate') {
-    return zlib.inflateSync(buffer).toString('utf-8');
+    return zlib.inflateSync(new Uint8Array(buffer)).toString('utf-8');
   } else if (encoding === 'br') {
-    return zlib.brotliDecompressSync(buffer).toString('utf-8');
+    // Convert Buffer to Uint8Array for brotliDecompressSync compatibility
+    return zlib.brotliDecompressSync(new Uint8Array(buffer)).toString('utf-8');
   }
   // No encoding or unknown encoding
   return buffer.toString('utf-8');
