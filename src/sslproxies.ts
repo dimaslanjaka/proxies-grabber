@@ -53,4 +53,12 @@ export default async function sslProxiesOrg() {
   return objectWrapper;
 }
 
-//export = sslProxiesOrg;
+if (process.argv.some((arg) => arg.includes('sslproxies'))) {
+  sslProxiesOrg()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
