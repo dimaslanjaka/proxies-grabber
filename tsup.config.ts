@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 const config = defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/**/*.ts'],
   format: ['cjs', 'esm'],
   dts: true,
   sourcemap: false,
