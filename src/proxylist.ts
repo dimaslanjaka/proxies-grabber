@@ -9,15 +9,15 @@ export default function proxyListOrg() {
     curlGET('https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1')
   ).then((res) => {
     const data = res.data;
-    const buildObject: returnObj = {
-      proxy: null,
-      code: null,
-      anonymity: null,
-      ssl: null,
-      google: null,
-      alert: null,
+    const buildObject: Partial<returnObj> = {
+      proxy: undefined,
+      code: undefined,
+      anonymity: undefined,
+      ssl: undefined,
+      google: undefined,
+      alert: undefined,
       type: 'http',
-      test: null
+      test: undefined
     };
     const resultWrapper: returnObj[] = [];
 
@@ -27,13 +27,14 @@ export default function proxyListOrg() {
       const li = ul.querySelectorAll('li');
       if (li) {
         const proxy = li[0].textContent;
+        if (!proxy) return;
         const extract = /Proxy\(['"](.*)['"]\)/gm.exec(proxy);
         if (Array.isArray(extract) && extract.length > 1) {
           const decode = Buffer.from(extract[1], 'base64').toString('ascii');
           buildObject.proxy = decode;
-          const type = li[1].textContent.trim().toLowerCase();
+          const type = li[1]?.textContent?.trim().toLowerCase();
           buildObject.ssl = type == 'https';
-          const anonymity = li[3].textContent.trim().toLowerCase();
+          const anonymity = li[3]?.textContent?.trim().toLowerCase();
           switch (anonymity) {
             case 'anonymous':
               buildObject.anonymity = 'A';
@@ -48,9 +49,21 @@ export default function proxyListOrg() {
               buildObject.anonymity = 'N';
               break;
           }
-          const location = li[4].querySelector('[class*=flag]');
-          buildObject.code = location.classList.toString().replace('flag', '').trim().toUpperCase();
-          resultWrapper.push(buildObject);
+          const location = li[4]?.querySelector('[class*=flag]');
+          buildObject.code = location?.classList.toString().replace('flag', '').trim().toUpperCase();
+          // Only push if proxy is defined (should always be at this point)
+          if (buildObject.proxy) {
+            resultWrapper.push({
+              proxy: buildObject.proxy,
+              code: buildObject.code ?? '',
+              anonymity: buildObject.anonymity ?? 'N',
+              ssl: buildObject.ssl ?? false,
+              google: buildObject.google ?? false,
+              alert: buildObject.alert ?? false,
+              type: buildObject.type ?? 'http',
+              test: typeof buildObject.test === 'string' ? buildObject.test : ''
+            });
+          }
         }
       }
     });
