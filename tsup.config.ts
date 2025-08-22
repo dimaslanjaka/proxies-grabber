@@ -21,7 +21,8 @@ const config = defineConfig({
     'playwright',
     'playwright-core',
     'puppeteer-extra-plugin-stealth',
-    'puppeteer-extra'
+    'puppeteer-extra',
+    'got'
   ]
 });
 
