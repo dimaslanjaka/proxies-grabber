@@ -58,8 +58,8 @@ export default class DBConstructor {
    * @param by
    * @returns
    */
-  edit<T extends { [key: string]: any }, K extends T>(key: string, newValue: T, by?: K) {
-    if (typeof by == 'object') {
+  edit<T = any, K = any>(key: string, newValue: T, by?: K) {
+    if (typeof by === 'object' && by !== null) {
       const get = this.get(key);
       if (Array.isArray(get)) {
         /**
@@ -68,12 +68,12 @@ export default class DBConstructor {
         const getIndex = get.findIndex((predicate: { [key: string]: any }) => {
           // if object by === predicate
           if (objectEquals(predicate, by)) return true;
-          const keysBy = Object.keys(by);
+          const keysBy = Object.keys(by as object);
           let resultLoop = true;
           for (let index = 0; index < keysBy.length; index++) {
             const keyBy = keysBy[index];
             // if not match, it return false (true && false)
-            resultLoop = resultLoop && predicate[keyBy] === by[keyBy];
+            resultLoop = resultLoop && predicate[keyBy] === (by as any)[keyBy];
           }
           if (resultLoop) return true;
         });
@@ -88,6 +88,7 @@ export default class DBConstructor {
         }
       }
     } else if (!by) {
+      // if `by` is not defined, just push new value
       this.push(key, newValue);
       return true;
     }
