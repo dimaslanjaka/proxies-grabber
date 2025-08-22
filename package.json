@@ -9,7 +9,23 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/db": {
+      "import": "./dist/db/index.js",
+      "require": "./dist/db/index.cjs",
+      "types": "./dist/db/index.d.ts"
+    },
+    "./dist/utils": {
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.cjs",
+      "types": "./dist/utils/index.d.ts"
+    },
+    "./dist/parser": {
+      "import": "./dist/parser/index.js",
+      "require": "./dist/parser/index.cjs",
+      "types": "./dist/parser/index.d.ts"
     }
   },
   "files": [

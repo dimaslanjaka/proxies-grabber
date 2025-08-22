@@ -16,7 +16,7 @@ import urls from './sources.json' with { type: 'json' };
  * @returns The list of all unique proxies found.
  */
 
-async function proxyFetcher() {
+export async function proxyFetcher() {
   let results: string[] = [];
   const filePrefix = 'added-fetch-ts-' + new Date().toISOString().slice(0, 10).replace(/-/g, '');
   const directory = path.join(process.cwd(), 'assets/proxies/');
