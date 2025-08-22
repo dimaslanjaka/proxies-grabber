@@ -56,7 +56,7 @@ export default {
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/tmp/', '/test/', '/__tests__/', '/coverage/', '/lib/'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
-  setupFilesAfterEnv: [],
+  setupFiles: ['<rootDir>/jest.setup.js'],
   testTimeout: 120000,
   detectOpenHandles: true,
   modulePathIgnorePatterns: ['<rootDir>/test/package.json']
