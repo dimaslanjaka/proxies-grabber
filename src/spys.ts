@@ -105,8 +105,6 @@ export async function spysOneBrowser() {
   }
 }
 
-spysOneBrowser();
-
 /**
  * Grab Spys using puppeteer-stealth from https://spys.one/en/
  */
@@ -115,4 +113,12 @@ export default async function spys() {
   // parser expects a string, join proxies with newlines
   const filtered = proxies.filter((p) => typeof p === 'string' && p.length > 0);
   return parser(filtered.join('\n'));
+}
+
+if (process.argv.some((arg) => arg.includes('spys.'))) {
+  (async () => {
+    const proxies = await spysOneBrowser();
+    console.log(proxies);
+    process.exit(0);
+  })();
 }
