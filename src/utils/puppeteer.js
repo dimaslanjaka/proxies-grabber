@@ -34,39 +34,49 @@ let playwright_browser = null;
  *
  * @async
  * @function getPuppeteer
- * @returns {Promise<{
- *   page: import('puppeteer').Page,
- *   browser: import('puppeteer').Browser,
- *   puppeteer: typeof import('puppeteer-extra')
- * }>}
+ * @param {Object} [options] - Optional configuration object.
+ * @param {Object} [options.puppeteerOptions] - Options to pass to puppeteer.launch().
+ * @param {boolean} [options.debug] - If true, logs browser console messages to Node.js console.
+ * @returns {Promise<{page: import('puppeteer').Page, browser: import('puppeteer').Browser, puppeteer: typeof import('puppeteer-extra')}>}
  * Resolves with an object containing:
- * - `page`: A new Puppeteer `Page` instance.
- * - `browser`: The launched or reused Puppeteer `Browser` instance.
- * - `puppeteer`: The `puppeteer-extra` module reference.
+ *   - `page`: A new Puppeteer `Page` instance.
+ *   - `browser`: The launched or reused Puppeteer `Browser` instance.
+ *   - `puppeteer`: The `puppeteer-extra` module reference.
  */
 export async function getPuppeteer(options = {}) {
   // Add stealth plugin and use defaults (all evasion techniques)
   puppeteer.use(StealthPlugin());
 
   if (!puppeteer_browser || !puppeteer_browser.connected) {
-    const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+    let chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
     if (!fs.existsSync(chromePath)) {
-      throw new Error(`Chrome executable not found at: ${chromePath}`);
+      chromePath = undefined;
     }
+    const puppeteerOptions = options.puppeteerOptions || {};
     puppeteer_browser = await puppeteer.launch({
       headless: false,
       userDataDir,
       executablePath: chromePath,
       args: [
-        '--disable-features=HeavyAdIntervention',
-        '--disable-features=AdInterestGroupAPI',
-        '--disable-popup-blocking',
+        '--disable-blink-features=AutomationControlled', // Disables Blink feature: Automation Controlled.
+        '--disable-features=HeavyAdIntervention', // Disable Chrome's blocking of intrusive ads
+        '--disable-features=AdInterestGroupAPI', // Prevents blocking based on ad interest group
+        '--disable-popup-blocking', // Disable pop-up blocking
         '--no-default-browser-check',
         '--no-first-run',
         '--ignore-certificate-errors',
         '--hide-crash-restore-bubble',
-        '--autoplay-policy=no-user-gesture-required'
-      ]
+        '--autoplay-policy=no-user-gesture-required',
+        '--window-size=1380,800',
+        '--disable-legacy-window', // Disables legacy window support.
+        '--disable-gpu', // Disables the GPU hardware acceleration.
+        '--disable-dev-shm-usage', // Disables shared memory usage.
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--blink-settings=imagesEnabled=true',
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ],
+      ...puppeteerOptions
     });
   }
 
