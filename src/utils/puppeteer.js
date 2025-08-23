@@ -36,9 +36,8 @@ let playwright_browser = null;
  * @function getPuppeteer
  * @param {Object} [options] - Optional configuration object.
  * @param {Object} [options.puppeteerOptions] - Options to pass to puppeteer.launch().
- * @param {boolean} [options.debug] - If true, logs browser console messages to Node.js console.
  * @returns {Promise<{page: import('puppeteer').Page, browser: import('puppeteer').Browser, puppeteer: typeof import('puppeteer-extra')}>}
- * Resolves with an object containing:
+ *   An object containing:
  *   - `page`: A new Puppeteer `Page` instance.
  *   - `browser`: The launched or reused Puppeteer `Browser` instance.
  *   - `puppeteer`: The `puppeteer-extra` module reference.
@@ -81,12 +80,18 @@ export async function getPuppeteer(options = {}) {
   }
 
   const page = await puppeteer_browser.newPage();
-  if (options.debug) {
-    page.on('console', (msg) => {
-      for (let i = 0; i < msg.args().length; ++i) console.log(`BROWSER LOG: ${msg.args()[i]}`);
-    });
-  }
   return { page, browser: puppeteer_browser, puppeteer };
+}
+
+/**
+ * Enables logging of browser console messages to the Node.js console for a Puppeteer or Playwright page.
+ *
+ * @param {import('puppeteer').Page | import('playwright').Page} page - The page instance to attach the console logger to.
+ */
+export function enableDebug(page) {
+  page.on('console', (msg) => {
+    for (let i = 0; i < msg.args().length; ++i) console.log(`BROWSER LOG: ${msg.args()[i]}`);
+  });
 }
 
 /**
@@ -96,9 +101,8 @@ export async function getPuppeteer(options = {}) {
  * @function getPlaywright
  * @param {Object} [options] - Optional configuration object.
  * @param {Object} [options.playwrightOptions] - Options to pass to chromium.launch().
- * @param {boolean} [options.debug] - If true, logs browser console messages to Node.js console.
  * @returns {Promise<{page: import('playwright').Page, browser: import('playwright').Browser, context: import('playwright').BrowserContext, playwright: typeof import('playwright').chromium}>}
- * Resolves with an object containing:
+ *   An object containing:
  *   - `page`: A new Playwright `Page` instance.
  *   - `browser`: The launched or reused Playwright `Browser` instance.
  *   - `context`: The Playwright `BrowserContext` instance.
@@ -141,11 +145,6 @@ export async function getPlaywright(options = {}) {
   }
 
   const page = await playwright_browser.newPage();
-  if (options.debug) {
-    page.on('console', (msg) => {
-      for (let i = 0; i < msg.args().length; ++i) console.log(`BROWSER LOG: ${msg.args()[i]}`);
-    });
-  }
   const context = await page.context();
   return { page, browser: playwright_browser, context, playwright: chromium };
 }
