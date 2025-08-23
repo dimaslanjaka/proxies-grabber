@@ -94,6 +94,7 @@
     "@types/babel__preset-env": "^7",
     "@types/bluebird": "^3.5.42",
     "@types/fs-extra": "^11",
+    "@types/got": "^9.6.12",
     "@types/jest": "^30.0.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^24.3.0",
