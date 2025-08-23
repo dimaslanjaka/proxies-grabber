@@ -3,7 +3,7 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import path from 'path';
 import { parser } from './parser/spys.txt.js';
 import sleep from './utils/sleep.js';
-export { parser as parse, returnObj as returnObj } from './parser/spys.txt.js';
+// export { parser as parse, returnObj } from './parser/spys.txt.js';
 
 puppeteer.use(StealthPlugin());
 

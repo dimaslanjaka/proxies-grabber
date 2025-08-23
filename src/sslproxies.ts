@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
 import { get as curlGET } from './curl.js';
-import { returnObj } from './spys';
+import { returnObj } from './parser/types.js';
 
 export default async function sslProxiesOrg() {
   const res = await Promise.resolve(curlGET('http://www.sslproxies.org'));

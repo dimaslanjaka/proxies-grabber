@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import { JSDOM } from 'jsdom';
 import { get as curlGET } from './curl.js';
-import { returnObj } from './spys';
+import { returnObj } from './parser/types.js';
 
 //https://proxy-list.org/english/search.php?search=ssl-no&country=any&type=any&port=any&ssl=any&p1-10
 export default function proxyListOrg() {
