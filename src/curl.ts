@@ -1,9 +1,9 @@
-import { OptionsOfTextResponseBody } from 'got';
+import type { GotOptions } from 'got';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
 
-type GotConfigShadow = OptionsOfTextResponseBody & {
+type GotConfigShadow = GotOptions<string> & {
   proxy?: string | undefined;
   [key: string]: any;
 };
@@ -13,9 +13,9 @@ type GotConfigShadow = OptionsOfTextResponseBody & {
  * @param url The request URL.
  * @param options Optional request options.
  */
-async function got(url: string | URL, options?: OptionsOfTextResponseBody) {
+async function got(url: string | URL, options?: GotOptions<string>) {
   const mod = await import('got');
-  let lib: ReturnType<(typeof import('got'))['got']> | null = null;
+  let lib: ReturnType<typeof import('got')> | null = null;
   if (typeof mod.default === 'function') {
     lib = mod.default as any;
   } else if (typeof mod === 'function') {
@@ -173,7 +173,9 @@ export function testProxy(proxy: string, target = 'http://google.com', options?:
   };
   const opt = Object.assign(def, options);
   if (opt.proxy) {
-    opt.agent = getAgent(opt.proxy, target);
+    // got v12+ expects a single agent, not an object with http/https keys
+    const agentObj = getAgent(opt.proxy, target);
+    opt.agent = agentObj.https || agentObj.http;
     delete opt.proxy;
   }
   return get(target, opt);
