@@ -35,7 +35,7 @@ jobs:
             **/yarn.lock
             **/package-lock.json
             **/pnpm-lock.yaml
-          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock', '**/package-lock.json', '**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock', '**/package-lock.json', '**/pnpm-lock.yaml', '**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-build-
 
