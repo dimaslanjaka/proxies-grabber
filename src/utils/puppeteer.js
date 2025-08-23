@@ -94,26 +94,26 @@ export async function getPuppeteer(options = {}) {
  *
  * @async
  * @function getPlaywright
- * @returns {Promise<{
- *   page: import('playwright').Page,
- *   browser: import('playwright').Browser,
- *   context: import('playwright').BrowserContext,
- *   playwright: typeof import('playwright').chromium
- * }>} Resolves with an object containing:
- * - `page`: A new Playwright `Page` instance.
- * - `browser`: The launched or reused Playwright `Browser` instance.
- * - `context`: The Playwright `BrowserContext` instance.
- * - `playwright`: The Playwright `chromium` module reference.
+ * @param {Object} [options] - Optional configuration object.
+ * @param {Object} [options.playwrightOptions] - Options to pass to chromium.launch().
+ * @param {boolean} [options.debug] - If true, logs browser console messages to Node.js console.
+ * @returns {Promise<{page: import('playwright').Page, browser: import('playwright').Browser, context: import('playwright').BrowserContext, playwright: typeof import('playwright').chromium}>}
+ * Resolves with an object containing:
+ *   - `page`: A new Playwright `Page` instance.
+ *   - `browser`: The launched or reused Playwright `Browser` instance.
+ *   - `context`: The Playwright `BrowserContext` instance.
+ *   - `playwright`: The Playwright `chromium` module reference.
  */
-export async function getPlaywright() {
+export async function getPlaywright(options = {}) {
   // Add the plugin to playwright (any number of plugins can be added)
   chromium.use(StealthPlugin());
 
   if (!playwright_browser || !playwright_browser.isConnected()) {
-    const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+    let chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
     if (!fs.existsSync(chromePath)) {
-      throw new Error(`Chrome executable not found at: ${chromePath}`);
+      chromePath = undefined;
     }
+    const playwrightOptions = options.playwrightOptions || {};
     playwright_browser = await chromium.launch({
       headless: false,
       userDataDir,
@@ -126,12 +126,26 @@ export async function getPlaywright() {
         '--no-first-run',
         '--ignore-certificate-errors',
         '--hide-crash-restore-bubble',
-        '--autoplay-policy=no-user-gesture-required'
-      ]
+        '--autoplay-policy=no-user-gesture-required',
+        '--window-size=1380,800',
+        '--disable-legacy-window',
+        '--disable-gpu',
+        '--disable-dev-shm-usage',
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--blink-settings=imagesEnabled=true',
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ],
+      ...playwrightOptions
     });
   }
 
   const page = await playwright_browser.newPage();
+  if (options.debug) {
+    page.on('console', (msg) => {
+      for (let i = 0; i < msg.args().length; ++i) console.log(`BROWSER LOG: ${msg.args()[i]}`);
+    });
+  }
   const context = await page.context();
   return { page, browser: playwright_browser, context, playwright: chromium };
 }
