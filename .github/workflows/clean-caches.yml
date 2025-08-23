@@ -6,7 +6,7 @@ concurrency:
 
 on:
   schedule:
-    - cron: '0 * * * *' # Schedule every hour
+    - cron: '0 0 * * *' # Schedule every day at midnight
   push:
     branches:
       - master
