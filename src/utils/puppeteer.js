@@ -1,18 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { chromium } from 'playwright-extra';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { fileURLToPath } from 'url';
-import { chromium } from 'playwright-extra';
 import sleep from './sleep.js';
-
-/**
- * Get the absolute path of the current script.
- * @constant {string} __filename - The file path of the current module.
- * @constant {string} __dirname - The directory path of the current module.
- */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * The absolute path for the user data directory.
