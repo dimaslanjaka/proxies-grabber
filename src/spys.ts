@@ -1,7 +1,6 @@
 import path from 'path';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { parser } from './parser/spys.txt.js';
 import { getPuppeteer } from './utils/puppeteer.js';
 import sleep from './utils/sleep.js';
 // export { parser as parse, returnObj } from './parser/spys.txt.js';
@@ -42,14 +41,26 @@ const portMap = {
   SevenOneThreeNine: 9 ^ (6165 ^ 8085) // Two ^ Five6Three
 };
 
+export interface spysOptions {
+  headless?: boolean;
+}
+
 /**
  * Scrape proxies from https://spys.one/en/
- * @returns Array of proxies in IP:PORT format
+ *
+ * Extracts a list of proxies with their type, anonymity, and country.
+ *
+ * @param options - Optional settings for browser launch (e.g., headless mode)
+ * @returns Array of objects: { proxy, type, anonymity, country }
  */
-export async function spysOneBrowser() {
+export async function spysOneBrowser(options: Partial<spysOptions> = {}) {
+  const defaultOptions: spysOptions = {
+    headless: true
+  };
+  options = { ...defaultOptions, ...options };
   const { browser } = await getPuppeteer({
     puppeteerOptions: {
-      headless: false,
+      headless: options.headless,
       userDataDir: path.join(process.cwd(), 'tmp', 'profile')
     }
   });
@@ -61,7 +72,7 @@ export async function spysOneBrowser() {
     await sleep(2000);
     const proxies = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('tr.spy1x, tr.spy1xx'));
-      const result = [];
+      const result: Array<{ proxy: string; type: string; anonymity: string; country: string }> = [];
 
       for (const row of rows) {
         const tds = row.querySelectorAll('td');
@@ -69,7 +80,7 @@ export async function spysOneBrowser() {
 
         // 1. Extract IP:PORT (your existing logic)
         const ipPortFont = tds[0].querySelector('font.spy14');
-        const ipPort = ipPortFont?.innerText.trim() || '';
+        const ipPort = ipPortFont ? (ipPortFont as HTMLElement).innerText.trim() : '';
         // Optionally, you can use your script logic to get the port if needed
 
         // 2. Proxy type
@@ -79,7 +90,8 @@ export async function spysOneBrowser() {
         const anonymity = tds[2].innerText.trim();
 
         // 4. Country
-        const countryAcronym = tds[3].querySelector('acronym');
+        // Use querySelector with type assertion to avoid deprecated DOM API
+        const countryAcronym = tds[3].querySelector('acronym') as HTMLElement | null;
         const country = countryAcronym ? countryAcronym.innerText.trim() : tds[3].innerText.trim();
 
         if (ipPort && proxyType && anonymity && country) {
@@ -94,11 +106,13 @@ export async function spysOneBrowser() {
 
       return result;
     });
-    const result = Array.isArray(proxies) ? proxies.filter((p) => typeof p === 'string' && p.length > 0) : [];
+    const result = Array.isArray(proxies)
+      ? proxies.filter((p) => typeof p.proxy === 'string' && p.proxy.length > 0)
+      : [];
     console.log(result);
     return result;
   } finally {
-    // await browser.close();
+    await browser.close();
   }
 }
 
@@ -106,10 +120,7 @@ export async function spysOneBrowser() {
  * Grab Spys using puppeteer-stealth from https://spys.one/en/
  */
 export default async function spys() {
-  const proxies = await spysOneBrowser();
-  // parser expects a string, join proxies with newlines
-  const filtered = proxies.filter((p) => typeof p === 'string' && p.length > 0);
-  return parser(filtered.join('\n'));
+  return await spysOneBrowser({ headless: true });
 }
 
 if (process.argv.some((arg) => arg.includes('spys.'))) {
