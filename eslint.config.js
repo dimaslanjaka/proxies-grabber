@@ -1,137 +1,263 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
+// ESLint Flat Config for JS, TS, React, and Prettier
+// ---------------------------------------------------
+// This configuration uses Flat Config (`eslint.config.js`)
+// and integrates:
+//   - Base JS rules (@eslint/js)
+//   - Babel parser for modern JS & JSX
+//   - TypeScript parser for TS/TSX
+//   - React + React Hooks plugins
+//   - Prettier as an ESLint plugin
+//   - jsonc-parser for Prettier config (supports comments)
+// Requirements:
+//   yarn add -D \
+// eslint @eslint/js eslint-config-prettier eslint-plugin-prettier \
+// @babel/core @babel/eslint-parser @babel/preset-react @babel/plugin-syntax-import-assertions \
+// typescript typescript-eslint \
+// eslint-plugin-react eslint-plugin-react-hooks \
+// globals jsonc-parser
+// ---------------------------------------------------
+
+import babelParser from '@babel/eslint-parser';
+import eslint from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
+import prettier from 'eslint-plugin-prettier';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
-import jsonc from 'jsonc-parser';
+import { parse as parseJSONC } from 'jsonc-parser';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import tseslint from 'typescript-eslint';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
-const prettierrc = jsonc.parse(fs.readFileSync(path.resolve(__dirname, '.prettierrc.json'), 'utf-8'));
+const prettierrc = parseJSONC(fs.readFileSync(path.resolve(__dirname, '.prettierrc.json'), 'utf-8'));
 
-export default [
+export default tseslint.config(
+  // ---------------------------------------------------
+  // 🌍 Global config (applies to all files)
+  // ---------------------------------------------------
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
   {
-    // Ignore certain files and directories from linting
     ignores: [
-      '**/*.md', // Markdown files
-      '**/*.html', // HTML files
-      '**/*.py', // Python files
-      '**/*.txt', // Text files
-      '**/tmp/**', // Temporary files
-      '**/app/**', // Application-specific files
-      '**/dist/**', // Distribution/build files
-      '**/node_modules/**', // Node.js dependencies
-      '**/coverage/**', // Test coverage reports
-      '**/logs/**', // Log files
-      '**/vendor/**', // Third-party libraries
-      '**/min.*', // Minified files (e.g., min.js, min.css)
-      '**/*.lock', // Lock files (e.g., package-lock.json, yarn.lock)
-      '**/public/**', // Public/static assets
-      '**/.yarn/**' // Yarn folder
-    ]
-  },
+      '**/*.md', // Ignore Markdown files
+      '**/*.html', // Ignore raw HTML files
+      '**/*.py', // Ignore Python scripts
+      '**/*.txt', // Ignore plain text
+      '**/tmp/**', // Ignore temp files
+      '**/app/**', // Ignore custom app output
+      '**/dist/**', // Ignore build output
+      '**/node_modules/**', // Ignore dependencies
+      '**/coverage/**', // Ignore test coverage
+      '**/logs/**', // Ignore logs
+      '**/vendor/**', // Ignore vendor code
+      '**/min.*', // Ignore minified assets
+      '**/*.lock', // Ignore lockfiles
+      '**/public/**', // Ignore public assets
+      '**/.yarn/**' // Ignore Yarn cache
+    ],
 
-  // Extend recommended ESLint rules, TypeScript plugin rules, and Prettier plugin rules
-  ...compat.extends(
-    'eslint:recommended', // Base ESLint recommended rules
-    'plugin:@typescript-eslint/eslint-recommended', // TypeScript-specific recommended rules
-    'plugin:@typescript-eslint/recommended', // Additional TypeScript rules
-    'plugin:prettier/recommended' // Integrate Prettier for code formatting
-  ),
-
-  {
-    linterOptions: {
-      reportUnusedDisableDirectives: true // Report unused ESLint disable comments
-    },
-
+    // Global language options
     languageOptions: {
       globals: {
-        ...globals.browser, // Browser global variables
-        ...globals.amd, // AMD module globals
-        ...globals.node, // Node.js global variables
-        ...globals.jest, // Jest testing globals
+        // Browser globals (window, document, etc.)
+        ...globals.browser,
+        // Node.js globals (process, __dirname, etc.)
+        ...globals.node,
+        // Jest testing globals
+        ...globals.jest,
+        // Google reCAPTCHA
         grecaptcha: 'readonly',
-        $: 'readonly', // jQuery object
-        jQuery: 'readonly', // jQuery object
-        adsbygoogle: 'writable', // Google Ads
-        hexo: 'readonly' // Hexo static site generator object
+        // jQuery $
+        $: 'readonly',
+        // jQuery object
+        jQuery: 'readonly',
+        // Google Ads
+        adsbygoogle: 'writable',
+        // Hexo static site generator
+        hexo: 'readonly'
       },
-
-      parser: tsParser, // Use TypeScript parser
-      ecmaVersion: 2020, // Specify ECMAScript version 2020
-      sourceType: 'module' // Enable ES6 modules
+      // Support latest ECMAScript syntax
+      ecmaVersion: 'latest',
+      // Enable ES modules
+      sourceType: 'module'
     },
 
+    plugins: { prettier },
+
     rules: {
-      // Prettier formatting rules
-      'prettier/prettier': [
-        'error',
-        Object.assign(prettierrc, {
-          // Override settings for specific file types
-          overrides: [
-            {
-              excludeFiles: ['*.min.js', '*.min.cjs', '*.min.css', '*.min.html', '*.min.scss'], // Skip minified files
-              files: ['*.js', '*.css', '*.sass', '*.html', '*.md', '*.ts'], // Target specific file types
-              options: { semi: true } // Always use semicolons
-            },
-            {
-              files: ['*.ejs', '*.njk', '*.html'], // Specific parser for templating and HTML files
-              options: { parser: 'html' }
-            }
-          ]
-        })
-      ],
+      // ✅ Run Prettier as an ESLint rule (using config with comments)
+      'prettier/prettier': ['error', prettierrc],
 
-      // TypeScript-specific rules
-      '@typescript-eslint/explicit-function-return-type': 'off', // Disable enforcing return type on functions
-      'no-unused-vars': 'off', // Disable base rule (TypeScript has its own)
+      // ✅ Disable stylistic rules that conflict with Prettier
+      ...prettierConfig.rules,
 
-      // Allow unused variables starting with _ (common convention for ignored variables)
-      '@typescript-eslint/no-unused-vars': [
+      // Example JS style relaxations
+      'arrow-body-style': 'off', // Allow any arrow fn body style
+      'prefer-arrow-callback': 'off', // Allow normal function callbacks
+      // ⚙️ Allow unused variables starting with "_"
+      'no-unused-vars': [
         'error',
         {
-          argsIgnorePattern: '^_', // Ignore unused arguments starting with _
-          varsIgnorePattern: '^_', // Ignore unused variables starting with _
-          caughtErrorsIgnorePattern: '^_' // Ignore unused caught errors starting with _
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
         }
-      ],
+      ]
+    }
+  },
 
-      '@typescript-eslint/no-explicit-any': 'off', // Allow usage of 'any' type
+  // ---------------------------------------------------
+  // 📜 ESM (JS, MJS, JSX)
+  // ---------------------------------------------------
+  {
+    files: ['**/*.{js,mjs,jsx}'],
+    languageOptions: {
+      // Use Babel parser for modern JS/JSX
+      parser: babelParser,
+      parserOptions: {
+        // Allow parsing without .babelrc
+        requireConfigFile: false,
+        babelOptions: {
+          // Handle JSX in JS files
+          presets: ['@babel/preset-react'],
+          // Support `import ... with { type: "json" }`
+          plugins: ['@babel/plugin-syntax-import-assertions']
+        },
+        ecmaFeatures: {
+          // Enable JSX parsing
+          jsx: true
+        }
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      }
+    },
+    rules: {
+      // Only use base no-unused-vars for JS, allow unused vars starting with _
+      '@typescript-eslint/no-unused-vars': 'off',
+      // Place custom no-unused-vars last to ensure it takes precedence
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ]
+    }
+  },
+
+  // ---------------------------------------------------
+  // 📦 CommonJS (CJS)
+  // ---------------------------------------------------
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      parser: babelParser,
+      parserOptions: {
+        // Allow parsing without .babelrc
+        requireConfigFile: false,
+        babelOptions: {
+          // Handle JSX in JS files
+          presets: ['@babel/preset-env']
+        }
+      },
+      globals: {
+        ...globals.node
+      }
+    },
+    rules: {
+      // Allow require statements in CJS files
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-var-requires': 'off', // Allow require() in CJS
+      'no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ]
+    }
+  },
+
+  // ---------------------------------------------------
+  // 🟦 TypeScript (TS, TSX, MTS, CTS)
+  // ---------------------------------------------------
+  {
+    files: ['**/*.{ts,tsx,mts,cts}'],
+    languageOptions: {
+      // TypeScript-aware parser
+      parser: tseslint.parser,
+      parserOptions: {
+        // Point to project tsconfig
+        project: './tsconfig.json'
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      }
+    },
+    rules: {
+      // Replace base "no-unused-vars" with TS version
+      'no-unused-vars': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off', // No need to force return types
+      '@typescript-eslint/no-explicit-any': 'off', // Allow `any`
       '@typescript-eslint/no-this-alias': [
         'error',
         {
-          allowDestructuring: false, // Disallow destructuring with aliasing
-          allowedNames: ['self', 'hexo'] // Allow specific aliases like 'self' and 'hexo'
+          allowDestructuring: false,
+          allowedNames: ['self', 'hexo'] // Allow aliasing `this` to self/hexo
         }
       ],
-
-      // JavaScript arrow function rules
-      'arrow-body-style': 'off', // Disable forcing arrow function bodies
-      'prefer-arrow-callback': 'off' // Disable enforcing arrow functions for callbacks
+      // Place custom TS unused-vars rule last to ensure it takes precedence
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_', // Allow ignored args starting with "_"
+          varsIgnorePattern: '^_', // Allow ignored vars starting with "_"
+          caughtErrorsIgnorePattern: '^_' // Allow ignored caught errors
+        }
+      ]
     }
   },
-  {
-    // Specific rules for JavaScript and CommonJS files
-    files: ['**/*.js', '**/*.cjs'],
 
-    rules: {
-      '@typescript-eslint/no-var-requires': 'off', // Allow require() in CommonJS files
-      '@typescript-eslint/no-require-imports': 'off', // Allow require imports
-      '@typescript-eslint/triple-slash-reference': 'off' // Disable triple-slash-reference rule
-    }
-  },
+  // ---------------------------------------------------
+  // ⚛️ React (JSX + TSX)
+  // ---------------------------------------------------
   {
-    // Specific rules for ECMAScript modules
-    files: ['**/*.mjs'],
+    files: ['**/*.{jsx,tsx}'],
+    plugins: {
+      react, // React linting rules
+      'react-hooks': reactHooks, // Enforce hooks rules
+      prettier
+    },
     rules: {
-      '@typescript-eslint/triple-slash-reference': 'off' // Disable triple-slash-reference rule
+      // ✅ React recommended rules
+      ...react.configs.recommended.rules,
+      ...react.configs['jsx-runtime'].rules,
+
+      // ✅ React Hooks best practices
+      ...reactHooks.configs.recommended.rules,
+
+      // ✅ Prettier formatting
+      'prettier/prettier': 'error',
+
+      // ⚙️ Adjustments for modern React
+      'react/react-in-jsx-scope': 'off', // Not needed in React 17+
+      'react/prop-types': 'off' // Disable PropTypes if using TS
+    },
+    settings: {
+      react: {
+        version: 'detect' // Auto-detect installed React version
+      }
     }
   }
-];
+);
