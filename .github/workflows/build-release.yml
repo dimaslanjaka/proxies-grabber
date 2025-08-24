@@ -54,6 +54,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          corepack enable
           yarn install || (echo "Install failed, retrying with clean install..." && rm -rf node_modules yarn.lock && touch yarn.lock && yarn install)
 
       - name: Build
