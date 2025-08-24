@@ -76,22 +76,30 @@ export default class proxyGrabber {
    * @returns
    */
   async get(proxy?: string) {
-    //return Object.assign(this.method1(), this.method2());
-    // const proxies = await this.method1();
-    const proxies2 = await this.method2();
-    const proxies3 = await this.method3();
+    // Fetch all proxies in parallel and flatten into a single array
+    const allProxies = (await Promise.all([this.method1(), this.method2(), this.method3()])).flat();
+    const seen = new Set();
+    const merged = allProxies.filter((item) => {
+      if (!item.proxy || seen.has(item.proxy)) return false;
+      seen.add(item.proxy);
+      return true;
+    });
 
-    const merge = Object.assign(proxies2, proxies3);
     if (typeof proxy === 'string') {
-      const exactMatch = merge.find((o) => o.proxy === proxy);
-      const includeMatch = merge.find((o) => typeof o.proxy === 'string' && o.proxy.includes(proxy));
-      const same = JSON.stringify(exactMatch) == JSON.stringify(includeMatch);
-      // @todo return single object if exact and includes is same
-      if (same) return [exactMatch];
-      // @todo return two matches
-      return [exactMatch, includeMatch];
+      const exactMatch = merged.find((o) => o.proxy === proxy);
+      const includeMatch = merged.find((o) => typeof o.proxy === 'string' && o.proxy.includes(proxy));
+      if (exactMatch && JSON.stringify(exactMatch) === JSON.stringify(includeMatch)) {
+        return [exactMatch];
+      } else if (exactMatch || includeMatch) {
+        // Return both if they are different and exist
+        const result = [];
+        if (exactMatch) result.push(exactMatch);
+        if (includeMatch && includeMatch !== exactMatch) result.push(includeMatch);
+        return result;
+      }
+      return [];
     }
-    return merge;
+    return merged;
   }
 
   getDb() {
