@@ -4,7 +4,10 @@ import fs from 'fs';
 import { spawnSync } from 'child_process';
 
 const currentChecksum = getChecksum(path.join(process.cwd(), 'package.json'));
-const checksumFile = path.join(process.cwd(), 'tmp/checksum.txt');
+const checksumFile = path.join(process.cwd(), 'tmp/jest/checksum.txt');
+if (!fs.existsSync(path.dirname(checksumFile))) {
+  fs.mkdirSync(path.dirname(checksumFile), { recursive: true });
+}
 const previousChecksum = fs.existsSync(checksumFile) ? fs.readFileSync(checksumFile, 'utf-8') : '';
 
 if (currentChecksum !== previousChecksum) {
