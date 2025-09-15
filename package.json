@@ -69,7 +69,7 @@
     "fs-extra": "^11.3.1",
     "got": "^14.4.7",
     "http-proxy-agent": "^7.0.2",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.0",
     "moment": "^2.30.1",
     "node-html-parser": "^7.0.1",
     "playwright-extra": "^4.3.6",
