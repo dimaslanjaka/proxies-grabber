@@ -129,7 +129,7 @@
     "ts-jest": "^29.4.1",
     "ts-node": "^10.7.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
+    "typescript": "5.8.3",
     "typescript-eslint": "^8.40.0",
     "why-is-node-running": "^3.2.2"
   },
