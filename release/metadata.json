@@ -19,12 +19,12 @@
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "7c89ac88d8f93e05c2d8059cf5a9f326ddbd21d9",
-      "sha256": "8GhMR/wkSru9dIzNvwaddTT39eCGGz9Oati4K5q7IRE=",
-      "md5": "2c99349523fb18ee074976168ce8b1ba",
-      "sha512": "Pzd8jK4+wtEtPgaZAIkybqFY2mlazIYcH/Mw7g29sEINJ3p+ic40OjI5MYOlL2D5O6n+C+OmbZmoXD85agiFww=="
+      "sha1": "9530543e706e8061392d6b55df8ebaffd9f7d6a8",
+      "sha256": "g8VZsfLlo0x79FI+u+9tmF+JaLLxxXMxkIsGy8VC2LU=",
+      "md5": "ca4d91da70b1249b3ac3e42748c17299",
+      "sha512": "/8zC11UOdDZuXjOd8hEyMWqc6mqxo4l3wOFcFDi2fML+FJ5nHBAPrpm3dJifZfVNlSQHZjqy3HRlbns6aRffGQ=="
     },
-    "size": "453.85 KB"
+    "size": "455.39 KB"
   },
   "/release/proxies-grabber-1.1.4.tgz": {
     "integrity": {
