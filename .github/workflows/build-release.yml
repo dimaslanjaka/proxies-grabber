@@ -45,9 +45,11 @@ jobs:
           git config --local user.name "dimaslanjaka"
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22.x
+          cache: 'yarn'
+          cache-dependency-path: 'package.json'
 
       - name: Install Global Dependencies
         run: npm i -g npm gulp-cli typescript ts-node
