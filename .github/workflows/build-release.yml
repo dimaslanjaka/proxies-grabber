@@ -45,7 +45,7 @@ jobs:
           git config --local user.name "dimaslanjaka"
 
       - name: Use Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22.x
           cache: 'yarn'
