@@ -2,9 +2,9 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| 1.1.3 | https://github.com/dimaslanjaka/proxies-grabber/raw/fd7e05b/release/proxies-grabber-1.1.3.tgz |
-| 1.1.4 | https://github.com/dimaslanjaka/proxies-grabber/raw/fd7e05b/release/proxies-grabber-1.1.4.tgz |
-| latest | https://github.com/dimaslanjaka/proxies-grabber/raw/fd7e05b/release/proxies-grabber.tgz |
+| 1.1.3 | https://github.com/dimaslanjaka/proxies-grabber/raw/c1f2860/release/proxies-grabber-1.1.3.tgz |
+| 1.1.4 | https://github.com/dimaslanjaka/proxies-grabber/raw/c1f2860/release/proxies-grabber-1.1.4.tgz |
+| latest | https://github.com/dimaslanjaka/proxies-grabber/raw/c1f2860/release/proxies-grabber.tgz |
 | latest | https://github.com/dimaslanjaka/proxies-grabber/raw/master/release/proxies-grabber.tgz |
 
 use this tarball with `resolutions`:
