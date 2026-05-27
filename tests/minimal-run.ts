@@ -1,6 +1,8 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { spysOneBrowser } from '../src/spys';
 // import proxyGrabber from '../src/index.js';
+
+dotenv.config({ override: true, quiet: true });
 
 // const grabber = new proxyGrabber();
 // grabber
