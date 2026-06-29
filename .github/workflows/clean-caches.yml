@@ -67,7 +67,7 @@ jobs:
 
       - name: Setup Cache
         id: cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             ~/.cache/pip
