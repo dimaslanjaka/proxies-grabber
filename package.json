@@ -107,7 +107,7 @@
     "@typescript-eslint/parser": "^8.40.0",
     "babel-jest": "^30.0.5",
     "binary-collections": "^2.0.9",
-    "ejs": "^3.1.10",
+    "ejs": "^4.0.1",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
